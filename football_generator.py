@@ -55,8 +55,13 @@ def make_initials_badge(text, size, bg_color="#E0E0E0", fg="#424242"):
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 FONT_PATH = os.path.join(_SCRIPT_DIR, "fonts", "Vazirmatn-Bold.ttf")
 FONT_MEDIUM_PATH = os.path.join(_SCRIPT_DIR, "fonts", "Vazirmatn-Medium.ttf")
-OUTPUT_DIR = os.path.expanduser("~/football_fixtures/output")
-LOCAL_OUTPUT = os.path.join(_SCRIPT_DIR, "output")
+# Vercel: only /tmp is writable — detect via VERCEL env var
+if os.environ.get("VERCEL"):
+    OUTPUT_DIR = "/tmp/football_output"
+    LOCAL_OUTPUT = "/tmp/football_output"
+else:
+    OUTPUT_DIR = os.path.expanduser("~/football_fixtures/output")
+    LOCAL_OUTPUT = os.path.join(_SCRIPT_DIR, "output")
 
 # ─── Per-league colors ───────────────────────────────────────────────────────
 # Only 5 allowed leagues: Premier League, La Liga, Serie A, Ligue 1, Europa League
