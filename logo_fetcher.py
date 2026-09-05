@@ -66,8 +66,11 @@ CACHE_FILE = TEAM_DIR / "team_cache.json"
 # Persistent slug -> {badge_url, local_path, team_name}
 _team_cache = {}
 try:
-    if CACHE_FILE.exists():
-        _team_cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
+    try:
+        if CACHE_FILE.exists():
+            _team_cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
+    except (PermissionError, OSError):
+        pass
 except Exception:
     _team_cache = {}
 
@@ -154,21 +157,30 @@ def get_team_logo(team_name: str, use_cache: bool = True) -> str | None:
     # cache hit (in-memory or on-disk) — also handle stale /root/ paths from build machine
     if use_cache and key in _team_cache:
         p = _team_cache[key].get("local")
-        if p and Path(p).exists():
-            return p
+        try:
+            if p and Path(p).exists():
+                return p
+        except (PermissionError, OSError):
+            pass
         # Stale absolute path from different machine (e.g. /root/... on Vercel's /var/task) — try /tmp mirror
         if p and "/" in p:
-            _fallback_p = Path("/tmp") / "football_teams" / Path(p).name
-            if _fallback_p.exists():
-                return str(_fallback_p)
+            try:
+                _fallback_p = Path("/tmp") / "football_teams" / Path(p).name
+                if _fallback_p.exists():
+                    return str(_fallback_p)
+            except (PermissionError, OSError):
+                pass
 
     slug = _slugify(q)
     local_path = TEAM_DIR / f"{slug}.png"
-    if local_path.exists():
-        if use_cache:
-            _team_cache[key] = {"team": raw, "local": str(local_path), "q": q}
-            _save_cache()
-        return str(local_path)
+    try:
+        if local_path.exists():
+            if use_cache:
+                _team_cache[key] = {"team": raw, "local": str(local_path), "q": q}
+                _save_cache()
+            return str(local_path)
+    except (PermissionError, OSError):
+        pass
 
     # Search TSDB
     try:

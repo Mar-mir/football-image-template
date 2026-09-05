@@ -50,10 +50,8 @@ def parse():
         matches = parse_matches(raw, default_date=default_date)
         return jsonify({"success": True, "matches": matches, "count": len(matches)})
     except Exception as e:
-        import traceback
-        tb = traceback.format_exc()
-        print(tb)
-        return jsonify({"success": False, "error": str(e), "traceback": tb[-3000:]}), 500
+        import traceback; traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/generate", methods=["POST"])
@@ -123,10 +121,8 @@ def generate():
 
         return jsonify({"success": True, "files": files, "count": len(matches), "pages": len(files)})
     except Exception as e:
-        import traceback
-        tb = traceback.format_exc()
-        print(tb)
-        return jsonify({"success": False, "error": str(e), "traceback": tb[-3000:]}), 500
+        import traceback; traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/fonts/<path:filename>")
