@@ -263,13 +263,11 @@
   "liverpool": {
     "team": "Liverpool",
     "local": "/root/football-image-template/assets/teams/liverpool.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png",
     "q": "Liverpool"
   },
   "juventus": {
     "team": "Juventus",
     "local": "/root/football-image-template/assets/teams/juventus.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/uxf0gr1742983727.png",
     "q": "Juventus"
   },
   "ac_milan": {
@@ -281,25 +279,21 @@
   "marseille": {
     "team": "Marseille",
     "local": "/root/football-image-template/assets/teams/marseille.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/c6bazh1779212287.png",
     "q": "Marseille"
   },
   "sevilla": {
     "team": "Sevilla",
     "local": "/root/football-image-template/assets/teams/sevilla.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vpsqqx1473502977.png",
     "q": "Sevilla"
   },
   "leverkusen": {
     "team": "Leverkusen",
     "local": "/root/football-image-template/assets/teams/bayer_leverkusen.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png",
     "q": "Bayer Leverkusen"
   },
   "bayer_leverkusen": {
     "team": "Bayer Leverkusen",
     "local": "/root/football-image-template/assets/teams/bayer_leverkusen.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png",
     "q": "Bayer Leverkusen"
   },
   "benfica": {
@@ -311,19 +305,64 @@
   "bayern_munich": {
     "team": "Bayern Munich",
     "local": "/root/football-image-template/assets/teams/bayern_munich.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/01ogkh1716960412.png",
     "q": "Bayern Munich"
   },
   "dortmund": {
     "team": "Dortmund",
     "local": "/root/football-image-template/assets/teams/dortmund.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/hkrkzc1781070994.png",
     "q": "Dortmund"
   },
   "union_berlin": {
     "team": "Union Berlin",
     "local": "/root/football-image-template/assets/teams/union_berlin.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/q0o5001599679795.png",
     "q": "Union Berlin"
+  },
+  "m_nchengladbach": {
+    "team": "Mönchengladbach",
+    "local": "/root/football-image-template/assets/teams/m_nchengladbach.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/sysurw1473453380.png",
+    "q": "Mönchengladbach"
+  },
+  "augsburg": {
+    "team": "Augsburg",
+    "local": "/root/football-image-template/assets/teams/augsburg.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/xqyyvq1473453233.png",
+    "q": "Augsburg"
+  },
+  "hoffenheim": {
+    "team": "Hoffenheim",
+    "local": "/root/football-image-template/assets/teams/hoffenheim.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/9hwvb21621593919.png",
+    "q": "Hoffenheim"
+  },
+  "paderborn": {
+    "team": "Paderborn",
+    "local": "/root/football-image-template/assets/teams/paderborn.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/kddvva1566048058.png",
+    "q": "Paderborn"
+  },
+  "freiburg": {
+    "team": "Freiburg",
+    "local": "/root/football-image-template/assets/teams/freiburg.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/urwtup1473453288.png",
+    "q": "Freiburg"
+  },
+  "werder_bremen": {
+    "team": "Werder Bremen",
+    "local": "/root/football-image-template/assets/teams/werder_bremen.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/tkvqan1716960454.png",
+    "q": "Werder Bremen"
+  },
+  "leipzig": {
+    "team": "Leipzig",
+    "local": "/root/football-image-template/assets/teams/leipzig.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/ol3auz1625363043.png",
+    "q": "Leipzig"
+  },
+  "schalke": {
+    "team": "Schalke",
+    "local": "/root/football-image-template/assets/teams/schalke.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/hnci291621593978.png",
+    "q": "Schalke"
   }
 }

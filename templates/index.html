@@ -357,8 +357,14 @@ async function runParse(){
     lastParsed=data.matches;
     document.getElementById('parser-count').textContent = data.count ? `✅ ${toFaNum(data.count)} بازی شناسایی شد` : 'چیزی یافت نشد';
     showParserResult(data.matches);
-    if(data.count) toast(`${toFaNum(data.count)} بازی استخراج شد — «افزودن به لیست» را بزن`);
-    else toast('بازی‌ای شناسایی نشد — فرمت خط‌ها را چک کن',true);
+    if(data.count){
+      function _norm(m){ return {league: m.league || '—', league_en: m.league_en || m.league || '—', home: m.home, away: m.away, date: m.date || document.getElementById('date-str').value.trim() || '—'}; }
+      matches = lastParsed.map(_norm);
+      activeLeague='__all__';
+      renderGroupTabs(); renderTable(); renderQuickChips(); updatePagesStat();
+      toast(`${toFaNum(data.count)} بازی استخراج و جایگزین شد ✅`);
+    }
+    else toast('بازیای شناسایی نشد — فرمت خطها را چک کن',true);
   }catch(e){toast('خطا در پارسر: '+e.message,true)}
   finally{btn.disabled=false;btn.textContent='✨ استخراج تیم‌ها'}
 }
@@ -371,7 +377,7 @@ function showParserResult(list){
       const lg = m.league_en && m.league_en !== '—' ? m.league_en : (m.league || '—');
       const dot = `<span class="league-dot" style="background:${leagueColor(lg)}"></span>`;
       return `<li>${dot}<strong>${esc(m.home)} vs ${esc(m.away)}</strong> <span style="color:#A7E0B6">• ${esc(lg)}</span></li>`;
-    }).join('')+`</ul><div style="margin-top:8px;color:#A7E0B6;font-size:11px">«افزودن به لیست» یا «جایگزینی لیست» را بزن تا وارد جدول شود.</div>`;
+    }).join('')+`</ul><div style="margin-top:8px;color:#A7E0B6;font-size:11px">وارد جدول شد — برای تغییر، «افزودن به لیست» یا «جایگزینی لیست» را بزن.</div>`;
 }
 function hideParserResult(){document.getElementById('parser-result').classList.remove('show');document.getElementById('parser-result').innerHTML=''}
 function parserAdd(mode){
