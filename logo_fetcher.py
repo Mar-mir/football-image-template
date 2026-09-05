@@ -222,8 +222,13 @@ def get_team_logo(team_name: str, use_cache: bool = True) -> str | None:
             return None
         try:
             local_path.write_bytes(rr.content)
-        except PermissionError:
+        except (PermissionError, OSError) as _pe:
             # Build-time TEAM_DIR was writable but runtime is read-only (Vercel) — fallback to /tmp
+            # OSError includes PermissionError (errno 13) on some Python builds
+            if getattr(_pe, 'errno', None) not in (None, 13, 30):
+                # Not a permission error — re-raise via fallback handler
+                print(f"[logo] write fail {local_path}: {_pe}") 
+                return None
             try:
                 _fallback = pathlib.Path("/tmp") / "football_teams" / f"{slug}.png"
                 _fallback.parent.mkdir(parents=True, exist_ok=True)
