@@ -12,9 +12,44 @@ import requests
 from pathlib import Path
 
 _SCRIPT_DIR = Path(__file__).parent
-LEAGUE_DIR  = _SCRIPT_DIR / "assets" / "leagues"
-TEAM_DIR    = _SCRIPT_DIR / "assets" / "teams"
-TEAM_DIR.mkdir(parents=True, exist_ok=True)
+# Vercel: filesystem is read-only except /tmp — use /tmp for team cache on Vercel
+_IS_VERCEL = bool(os.environ.get("VERCEL"))
+if _IS_VERCEL:
+    LEAGUE_DIR  = _SCRIPT_DIR / "assets" / "leagues"  # read-only, OK (pre-bundled)
+    TEAM_DIR    = Path("/tmp") / "football_teams"
+    try:
+        TEAM_DIR.mkdir(parents=True, exist_ok=True)
+    except Exception:
+        pass
+else:
+    LEAGUE_DIR  = _SCRIPT_DIR / "assets" / "leagues"
+    TEAM_DIR    = _SCRIPT_DIR / "assets" / "teams"
+    try:
+        TEAM_DIR.mkdir(parents=True, exist_ok=True)
+    except Exception:
+        pass
+
+# On Vercel, mirror bundled team PNGs into /tmp on first import so lookups still work
+if _IS_VERCEL:
+    try:
+        _bundled = _SCRIPT_DIR / "assets" / "teams"
+        if _bundled.exists():
+            for _p in _bundled.glob("*.png"):
+                _dst = TEAM_DIR / _p.name
+                if not _dst.exists():
+                    try:
+                        _dst.write_bytes(_p.read_bytes())
+                    except Exception:
+                        pass
+            _bundled_cache = _bundled / "team_cache.json"
+            _dst_cache = TEAM_DIR / "team_cache.json"
+            if _bundled_cache.exists() and not _dst_cache.exists():
+                try:
+                    _dst_cache.write_text(_bundled_cache.read_text(encoding="utf-8"), encoding="utf-8")
+                except Exception:
+                    pass
+    except Exception:
+        pass
 
 HEADERS = {"User-Agent": "Mozilla/5.0"}
 TSDB_BASE = "https://www.thesportsdb.com/api/v1/json/3"
@@ -22,11 +57,11 @@ CACHE_FILE = TEAM_DIR / "team_cache.json"
 
 # Persistent slug -> {badge_url, local_path, team_name}
 _team_cache = {}
-if CACHE_FILE.exists():
-    try:
+try:
+    if CACHE_FILE.exists():
         _team_cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
-    except Exception:
-        _team_cache = {}
+except Exception:
+    _team_cache = {}
 
 # Known aliases to help TSDB search find the right team
 TEAM_ALIASES = {
@@ -172,7 +207,11 @@ def get_team_logo(team_name: str, use_cache: bool = True) -> str | None:
         rr = requests.get(badge_url, headers=HEADERS, timeout=15)
         if rr.status_code != 200 or not rr.content:
             return None
-        local_path.write_bytes(rr.content)
+        try:
+            local_path.write_bytes(rr.content)
+        except Exception as _e:
+            print(f"[logo] write fail {local_path}: {_e}")
+            return None
         if use_cache:
             _team_cache[key] = {"team": raw, "local": str(local_path), "badge_url": badge_url, "q": q}
             # also cache by alias slug
@@ -194,7 +233,10 @@ def get_league_logo(league_en: str) -> str | None:
 
 def _save_cache():
     try:
-        CACHE_FILE.write_text(json.dumps(_team_cache, ensure_ascii=False, indent=2), encoding="utf-8")
+        try:
+            CACHE_FILE.write_text(json.dumps(_team_cache, ensure_ascii=False, indent=2), encoding="utf-8")
+        except Exception:
+            pass
     except Exception:
         pass
 
