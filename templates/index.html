@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>کنداکتور فوتبال — برنامه بازی‌ها</title>
+<style>
+@font-face{font-family:'Vazirmatn';src:url('/fonts/Vazirmatn-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Vazirmatn';src:url('/fonts/Vazirmatn-Medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green-dark:#0A2F1F;--green:#1B5E2A;--green-mid:#2E7D32;--green-light:#E8F5E9;--green-border:#A5D6A7;
+  --orange:#FF6F00;--orange-dark:#E65100;
+  --bg:#F0F4EE;--card:#FFFFFF;--text:#1E293B;--muted:#64748B;--border:#E2E8F0;--border-focus:#2E7D32;
+  --row-hover:#F1F8E9;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.1),0 4px 10px rgba(0,0,0,.05);
+  --radius:8px;--radius-lg:12px;
+}
+body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.app-header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;padding:22px 0;position:sticky;top:0;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,.2);overflow:hidden}
+.app-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.04) 60px,rgba(255,255,255,.04) 120px);pointer-events:none}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;position:relative}
+.header-title{font-size:21px;font-weight:700;display:flex;align-items:center;gap:10px}
+.header-title .ball{width:32px;height:32px;background:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.header-subtitle{font-size:13px;color:#A7E0B6;margin-top:2px}
+.header-badge{background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px}
+.container{max-width:1200px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 390px;gap:24px}
+@media(max-width:950px){.container{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-header h2{font-size:15px;font-weight:700;color:var(--green-dark)}
+.card-body{padding:20px}
+.parser-box{background:linear-gradient(135deg,#0A2F1F,#1B5E2A);border-radius:var(--radius-lg);padding:20px;color:#fff;position:relative;overflow:hidden}
+.parser-box::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(255,255,255,.04) 50px,rgba(255,255,255,.04) 100px);pointer-events:none}
+.parser-box > *{position:relative}
+.parser-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.parser-sub{font-size:12px;color:#A7E0B6;margin-bottom:12px}
+.parser-textarea{width:100%;min-height:130px;padding:14px;font-family:'Vazirmatn',sans-serif;font-size:13px;line-height:1.8;border:1.5px solid rgba(255,255,255,.2);border-radius:var(--radius);background:rgba(255,255,255,.97);color:var(--text);resize:vertical;outline:none;transition:border-color .2s,box-shadow .2s}
+.parser-textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,111,0,.15)}
+.parser-textarea::placeholder{color:#94A3B8}
+.parser-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.parser-result{margin-top:12px;background:rgba(255,255,255,.1);border-radius:var(--radius);padding:12px 14px;font-size:13px;display:none}
+.parser-result.show{display:block}
+.parser-result ul{margin:8px 0 0 0;padding-right:18px}
+.parser-result li{margin:4px 0;color:#E8F5E9}
+.parser-result li strong{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:var(--radius);cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-primary:disabled{background:#93C5FD;cursor:not-allowed}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{background:var(--orange-dark)}
+.btn-orange:disabled{background:#FFCC80;cursor:not-allowed}
+.btn-success{background:var(--green);color:#fff}
+.btn-success:hover{background:var(--green-dark)}
+.btn-ghost{background:transparent;color:var(--green);border:1.5px solid var(--border)}
+.btn-ghost:hover{background:var(--green-light);border-color:var(--green)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-lg{padding:14px 28px;font-size:16px}
+.btn-block{width:100%}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input[type="text"],input[type="number"],select,textarea{width:100%;padding:10px 14px;font-family:'Vazirmatn',sans-serif;font-size:14px;border:1.5px solid var(--border);border-radius:var(--radius);background:#fff;color:var(--text);transition:border-color .2s,box-shadow .2s;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--border-focus);box-shadow:0 0 0 3px rgba(46,125,50,.12)}
+.group-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.group-tab{padding:8px 16px;font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:600;border:2px solid var(--border);border-radius:24px;background:#fff;color:var(--muted);cursor:pointer;transition:all .2s}
+.group-tab:hover{border-color:var(--green);color:var(--green);background:var(--green-light)}
+.group-tab.active{border-color:var(--green);background:var(--green);color:#fff}
+.group-tab .tab-count{display:inline-block;background:rgba(0,0,0,.1);border-radius:10px;padding:1px 7px;font-size:11px;margin-right:4px}
+.group-tab.active .tab-count{background:rgba(255,255,255,.25)}
+.search-bar{position:relative;margin-bottom:12px}
+.search-bar input{padding:10px 14px 10px 38px;font-size:13px}
+.search-bar .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;pointer-events:none}
+.table-scroll{max-height:520px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius)}
+.table-scroll::-webkit-scrollbar{width:6px}
+.table-scroll::-webkit-scrollbar-track{background:transparent}
+.table-scroll::-webkit-scrollbar-thumb{background:#C8E6C9;border-radius:3px}
+.matches-table{width:100%;border-collapse:collapse;font-size:13px}
+.matches-table thead th{background:var(--green-dark);color:#fff;padding:10px 8px;font-weight:600;font-size:11px;text-align:center;position:sticky;top:0;z-index:5;letter-spacing:.2px}
+.matches-table tbody tr{border-bottom:1px solid #E8F5E9;transition:background .15s}
+.matches-table tbody tr:hover{background:var(--row-hover)}
+.matches-table tbody tr.group-row td{font-weight:700;font-size:12px;padding:8px 12px;text-align:center;border-bottom:1.5px solid var(--green-border)}
+.matches-table td{padding:6px 6px;vertical-align:middle;text-align:center}
+.matches-table td input{padding:6px 6px;font-size:12px;border:1px solid transparent;border-radius:4px;background:transparent;font-family:'Vazirmatn',sans-serif;text-align:center}
+.matches-table td input:hover{border-color:var(--border)}
+.matches-table td input:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 2px rgba(46,125,50,.1)}
+.matches-table .row-num{width:36px;color:var(--muted);font-size:12px}
+.btn-icon{width:28px;height:28px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;border:none;cursor:pointer;font-size:14px;transition:all .15s}
+.btn-icon-del{background:transparent;color:#EF4444}
+.btn-icon-del:hover{background:#FEF2F2}
+.quick-add{margin-top:16px;border-top:1px solid var(--border);padding-top:16px}
+.quick-add-title{font-size:13px;font-weight:700;color:var(--green-dark);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.quick-add-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.quick-chip{padding:6px 12px;font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:500;border:1.5px solid var(--border);border-radius:20px;background:#fff;color:var(--text);cursor:pointer;transition:all .15s}
+.quick-chip:hover{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.quick-chip.used{border-color:#CBD5E1;background:#F8FAFC;color:#94A3B8;cursor:default;text-decoration:line-through}
+.manual-add{background:#F8FAFC;border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.manual-add-header{font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:4px}
+.manual-add-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.manual-add-body.open{max-height:500px}
+.manual-add-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.manual-add-fields input{padding:8px 10px;font-size:13px}
+.manual-add-fields .full{grid-column:1/-1}
+.sidebar{display:flex;flex-direction:column;gap:20px}
+.preview-area{background:#F8FAFC;border:2px dashed var(--green-border);border-radius:var(--radius);min-height:220px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-direction:column;gap:12px;padding:12px}
+.preview-area img{max-width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.preview-placeholder{text-align:center;color:var(--muted);padding:40px 20px}
+.preview-placeholder .icon{font-size:42px;margin-bottom:10px}
+.preview-placeholder p{font-size:13px}
+.loading-overlay{position:absolute;inset:0;background:rgba(255,255,255,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:10}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.download-bar{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.download-bar .btn{flex:1;min-width:140px}
+.brand-fields{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.brand-fields.open{max-height:600px}
+.toggle-brand{cursor:pointer;font-size:12px;color:var(--green);background:none;border:none;font-family:'Vazirmatn',sans-serif;font-weight:600;padding:4px 0}
+.toggle-brand:hover{text-decoration:underline}
+.font-slider-wrap{display:flex;align-items:center;gap:10px}
+.font-slider-wrap input[type="range"]{flex:1;-webkit-appearance:none;height:6px;border-radius:3px;background:#E2E8F0;outline:none;border:none;padding:0}
+.font-slider-wrap input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--green);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.font-slider-wrap .font-val{min-width:36px;text-align:center;font-size:14px;font-weight:700;color:var(--green)}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat-chip{background:var(--green-light);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;color:var(--muted)}
+.stat-chip strong{color:var(--green-dark);margin-left:4px}
+.empty-state{text-align:center;padding:32px 20px;color:var(--muted)}
+.empty-state .icon{font-size:32px;margin-bottom:6px}
+.empty-state p{font-size:13px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--green-dark);color:#fff;padding:12px 24px;border-radius:var(--radius);font-size:14px;font-weight:500;box-shadow:var(--shadow-lg);z-index:1000;transition:transform .3s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:#C62828}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .3s ease}
+.league-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:6px;vertical-align:middle;border:1px solid rgba(0,0,0,.08)}
+.preview-grid{display:grid;grid-template-columns:1fr;gap:12px;width:100%}
+.preview-grid.two{grid-template-columns:1fr 1fr}
+@media(max-width:600px){.preview-grid.two{grid-template-columns:1fr}}
+.preview-card{position:relative;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.preview-card .page-badge{position:absolute;top:8px;left:8px;background:rgba(10,47,31,.9);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+    <div>
+      <div class="header-title"><span class="ball">⚽</span> کنداکتور فوتبال</div>
+      <div class="header-subtitle">تصویر انگلیسی • هر لیگ یک رنگ • آخرهفته ۲ تصویری</div>
+    </div>
+    <span class="header-badge">FOOTBALL v2 • EN</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="main-content" style="display:flex;flex-direction:column;gap:20px">
+
+    <div class="parser-box fade-in">
+      <div class="parser-title">🧠 پارسر هوشمند — فقط تیم‌ها</div>
+      <div class="parser-sub">فقط نام دو تیم را تشخیص می‌دهد (ساعت لازم نیست). لیگ را هم اگر با [ ] یا در خط قبل باشد می‌فهمد. متن را اینجا پیست کن.</div>
+      <textarea id="parser-input" class="parser-textarea" placeholder="مثال (بدون ساعت هم کار می‌کند):
+Persepolis - Esteghlal
+[Premier League] Man City vs Arsenal
+تراکتور مقابل سپاهان
+Real Madrid – Barcelona
+[Serie A] Inter - Juventus | شبکه سه
+Bayern Munich - Dortmund
+
+می‌تونی یک بلوک چندخطی را کامل پیست کنی؛ [لیگ]، (League)، #هشتگ و مقابل/برابر هم پشتیبانی می‌شود.
+خروجی تصویر انگلیسی خواهد بود."></textarea>
+      <div class="parser-actions">
+        <button class="btn btn-orange" id="btn-parse" onclick="runParse()">✨ استخراج تیم‌ها</button>
+        <button class="btn btn-ghost" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)" onclick="parserAdd('replace')">↺ جایگزینی لیست</button>
+        <button class="btn btn-ghost" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)" onclick="parserAdd('append')">+ افزودن به لیست</button>
+        <button class="btn btn-ghost" style="background:transparent;color:#A7E0B6;border-color:transparent" onclick="document.getElementById('parser-input').value='';hideParserResult()">پاک کردن</button>
+        <span id="parser-count" style="margin-right:auto;font-size:13px;color:#A7E0B6;align-self:center"></span>
+      </div>
+      <div class="parser-result" id="parser-result"></div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:.05s">
+      <div class="card-header">
+        <h2>📋 لیست بازی‌ها</h2>
+        <div class="stats">
+          <span class="stat-chip"><strong id="stat-total">۰</strong> بازی</span>
+          <span class="stat-chip"><strong id="stat-leagues">۰</strong> لیگ</span>
+          <span class="stat-chip" id="stat-pages" style="display:none"><strong id="stat-pages-num">۱</strong> تصویر</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="group-tabs" id="group-tabs"></div>
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="جستجوی تیم یا لیگ…" oninput="renderTable()">
+        </div>
+        <div class="table-scroll">
+          <table class="matches-table">
+            <thead>
+              <tr>
+                <th class="row-num">#</th>
+                <th>League</th>
+                <th>Home</th>
+                <th style="width:44px">—</th>
+                <th>Away</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="matches-body"></tbody>
+          </table>
+        </div>
+
+        <div class="quick-add">
+          <div class="quick-add-title">⚡ افزودن سریع — <span id="quick-league-name">Premier League</span></div>
+          <div class="quick-add-grid" id="quick-chips"></div>
+          <div class="manual-add">
+            <div class="manual-add-header" onclick="toggleManual()">✏️ افزودن دستی بازی <span id="manual-arrow">▾</span></div>
+            <div class="manual-add-body" id="manual-body">
+              <div class="manual-add-fields">
+                <input type="text" id="new-league" placeholder="League (e.g. Premier League)" list="league-list">
+                <datalist id="league-list">
+                  <option value="Premier League"><option value="La Liga"><option value="Serie A"><option value="Ligue 1"><option value="Europa League">
+                </datalist>
+                <input type="text" id="new-home" placeholder="Home team" style="grid-column:1">
+                <input type="text" id="new-away" placeholder="Away team" style="grid-column:2">
+                <button class="btn btn-success btn-sm full" onclick="addManual()">+ افزودن</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="loadDefaults()">🔄 پیش‌فرض</button>
+          <button class="btn btn-ghost btn-sm" onclick="clearAll()">🗑️ پاک کردن</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportJSON()">📥 JSON</button>
+          <label class="btn btn-ghost btn-sm" style="cursor:pointer">📤 بارگذاری JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none"></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="card fade-in" style="animation-delay:.1s">
+      <div class="card-header"><h2>⚙️ تنظیمات تصویر (انگلیسی)</h2></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label>تاریخ بالای تصویر</label>
+          <input type="text" id="date-str" placeholder="auto (today)">
+        </div>
+        <div class="form-group">
+          <label>سایز فونت</label>
+          <div class="font-slider-wrap">
+            <input type="range" id="font-size-slider" min="14" max="40" value="22" oninput="document.getElementById('font-size').value=this.value;document.getElementById('font-val').textContent=this.value">
+            <span class="font-val" id="font-val">22</span>
+            <input type="number" id="font-size" value="22" min="14" max="40" style="width:60px;text-align:center" oninput="document.getElementById('font-size-slider').value=this.value;document.getElementById('font-val').textContent=this.value">
+          </div>
+        </div>
+        <button class="toggle-brand" onclick="toggleBrand()">ویرایش عنوان ▾</button>
+        <div class="brand-fields" id="brand-fields">
+          <div class="form-group" style="margin-top:12px">
+            <label>Title (EN)</label>
+            <input type="text" id="brand-name-en" value="FOOTBALL FIXTURES">
+          </div>
+          <div class="form-group">
+            <label>Subtitle (EN)</label>
+            <input type="text" id="brand-subtitle" value="Match Schedule">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Channel</label>
+              <input type="text" id="brand-channel" value="@YourChannel">
+            </div>
+            <div class="form-group">
+              <label>Website</label>
+              <input type="text" id="brand-website" value="—">
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px">
+          <button class="btn btn-primary btn-lg btn-block" id="btn-generate" onclick="generate()">🎨 Generate Image(s)</button>
+          <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px">بیش از ۱۴ بازی → خودکار ۲ تصویری</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:.15s">
+      <div class="card-header"><h2>🖼️ Preview — English Output</h2></div>
+      <div class="card-body">
+        <div class="preview-area" id="preview-area">
+          <div class="preview-placeholder" id="preview-placeholder">
+            <div class="icon">⚽</div>
+            <p>هنوز تصویری تولید نشده</p>
+            <p style="font-size:12px;margin-top:4px">بازی‌ها را وارد کن و Generate را بزن</p>
+          </div>
+        </div>
+        <div class="download-bar" id="download-bar" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let matches = [];
+let activeLeague = '__all__';
+let currentFiles = [];
+let lastParsed = [];
+
+const LEAGUE_COLORS = {
+  "Premier League": "#6A1B9A",
+  "La Liga": "#EF6C00",
+  "Serie A": "#2E7D32",
+  "Ligue 1": "#00838F",
+  "Europa League": "#AD1457"
+};
+const LEAGUES = Object.keys(LEAGUE_COLORS);
+const QUICK_TEMPLATES = {
+  "Premier League": [{home:"Man City",away:"Arsenal"},{home:"Liverpool",away:"Chelsea"},{home:"Man United",away:"Tottenham"},{home:"Brighton",away:"Newcastle"}],
+  "La Liga": [{home:"Real Madrid",away:"Barcelona"},{home:"Atletico Madrid",away:"Sevilla"},{home:"Valencia",away:"Villarreal"}],
+  "Serie A": [{home:"Inter",away:"Juventus"},{home:"AC Milan",away:"Napoli"},{home:"Roma",away:"Lazio"}],
+  "Ligue 1": [{home:"PSG",away:"Marseille"},{home:"Lyon",away:"Monaco"},{home:"Lille",away:"Nice"}],
+  "Europa League": [{home:"Roma",away:"Sevilla"},{home:"Leverkusen",away:"Benfica"},{home:"Villarreal",away:"Marseille"}]
+};
+
+document.addEventListener('DOMContentLoaded',()=>{loadDefaults();});
+
+function leagueKey(m){ return (m.league_en && m.league_en !== '—' && m.league_en !== '-') ? m.league_en : (m.league || '—'); }
+function leagueColor(lg){ return LEAGUE_COLORS[lg] || '#424242'; }
+
+function loadDefaults(){
+  matches = JSON.parse(JSON.stringify({{ default_matches | tojson }}));
+  activeLeague='__all__';
+  renderGroupTabs(); renderTable(); renderQuickChips();
+  toast('پیش‌فرض بارگذاری شد');
+}
+function clearAll(){
+  matches=[]; lastParsed=[]; hideParserResult();
+  renderGroupTabs(); renderTable(); renderQuickChips();
+  document.getElementById('parser-count').textContent='';
+  document.getElementById('preview-area').innerHTML='<div class="preview-placeholder" id="preview-placeholder"><div class="icon">⚽</div><p>هنوز تصویری تولید نشده</p><p style="font-size:12px;margin-top:4px">بازی‌ها را وارد کن و Generate را بزن</p></div>';
+  document.getElementById('download-bar').style.display='none';
+  document.getElementById('download-bar').innerHTML='';
+  updatePagesStat();
+  toast('لیست پاک شد');
+}
+
+async function runParse(){
+  const text=document.getElementById('parser-input').value;
+  const date=document.getElementById('date-str').value.trim();
+  if(!text.trim()){toast('متنی برای استخراج وارد نشده',true);return}
+  const btn=document.getElementById('btn-parse');
+  btn.disabled=true; btn.textContent='⏳ در حال استخراج…';
+  try{
+    const res=await fetch('/parse',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,date})});
+    const data=await res.json();
+    if(!data.success) throw new Error(data.error);
+    lastParsed=data.matches;
+    document.getElementById('parser-count').textContent = data.count ? `✅ ${toFaNum(data.count)} بازی شناسایی شد` : 'چیزی یافت نشد';
+    showParserResult(data.matches);
+    if(data.count) toast(`${toFaNum(data.count)} بازی استخراج شد — «افزودن به لیست» را بزن`);
+    else toast('بازی‌ای شناسایی نشد — فرمت خط‌ها را چک کن',true);
+  }catch(e){toast('خطا در پارسر: '+e.message,true)}
+  finally{btn.disabled=false;btn.textContent='✨ استخراج تیم‌ها'}
+}
+function showParserResult(list){
+  const el=document.getElementById('parser-result');
+  if(!list.length){el.classList.remove('show');el.innerHTML='';return}
+  el.classList.add('show');
+  el.innerHTML = `<div style="font-weight:700;margin-bottom:6px">✅ ${toFaNum(list.length)} بازی شناسایی شد:</div><ul>`+
+    list.map(m=>{
+      const lg = m.league_en && m.league_en !== '—' ? m.league_en : (m.league || '—');
+      const dot = `<span class="league-dot" style="background:${leagueColor(lg)}"></span>`;
+      return `<li>${dot}<strong>${esc(m.home)} vs ${esc(m.away)}</strong> <span style="color:#A7E0B6">• ${esc(lg)}</span></li>`;
+    }).join('')+`</ul><div style="margin-top:8px;color:#A7E0B6;font-size:11px">«افزودن به لیست» یا «جایگزینی لیست» را بزن تا وارد جدول شود.</div>`;
+}
+function hideParserResult(){document.getElementById('parser-result').classList.remove('show');document.getElementById('parser-result').innerHTML=''}
+function parserAdd(mode){
+  if(!lastParsed.length){toast('اول «استخراج تیم‌ها» را بزن',true);return}
+  // normalize parsed -> match shape
+  function norm(m){ return {league: m.league || '—', league_en: m.league_en || m.league || '—', home: m.home, away: m.away, date: m.date || document.getElementById('date-str').value.trim() || '—'}; }
+  if(mode==='replace'){matches=lastParsed.map(norm); toast(`لیست جایگزین شد — ${toFaNum(matches.length)} بازی`)}
+  else{
+    let added=0;
+    for(const m of lastParsed){
+      const nm=norm(m);
+      const dup=matches.some(x=> leagueKey(x).toLowerCase()===leagueKey(nm).toLowerCase() && x.home.toLowerCase()===nm.home.toLowerCase() && x.away.toLowerCase()===nm.away.toLowerCase());
+      if(!dup){matches.push(nm); added++}
+    }
+    toast(added?`${toFaNum(added)} بازی افزوده شد`:'همه بازی‌ها تکراری بودند');
+  }
+  activeLeague='__all__';
+  renderGroupTabs(); renderTable(); renderQuickChips(); updatePagesStat();
+}
+
+function renderGroupTabs(){
+  const c=document.getElementById('group-tabs'); c.innerHTML='';
+  const all=document.createElement('button');
+  all.className='group-tab'+(activeLeague==='__all__'?' active':'');
+  all.innerHTML=`همه <span class="tab-count">${toFaNum(matches.length)}</span>`;
+  all.onclick=()=>{activeLeague='__all__';renderGroupTabs();renderTable();renderQuickChips()};
+  c.appendChild(all);
+  const present=[...new Set(matches.map(m=>leagueKey(m)))].filter(v=>v && v!=='—');
+  const tabs=[...new Set([...LEAGUES.filter(l=>present.includes(l)),...present])];
+  tabs.forEach(l=>{
+    const cnt=matches.filter(m=>leagueKey(m)===l).length;
+    const b=document.createElement('button');
+    b.className='group-tab'+(activeLeague===l?' active':'');
+    const dot=`<span class="league-dot" style="background:${leagueColor(l)};width:9px;height:9px;margin-left:0;margin-right:6px"></span>`;
+    b.innerHTML=`${dot}${l} <span class="tab-count">${toFaNum(cnt)}</span>`;
+    b.onclick=()=>{activeLeague=l;document.getElementById('new-league').value=l;document.getElementById('quick-league-name').textContent=l;renderGroupTabs();renderTable();renderQuickChips()};
+    c.appendChild(b);
+  });
+}
+function renderQuickChips(){
+  const grid=document.getElementById('quick-chips');
+  const league=activeLeague==='__all__'?'Premier League':activeLeague;
+  document.getElementById('quick-league-name').textContent=league;
+  document.getElementById('new-league').value=league;
+  const temps=QUICK_TEMPLATES[league]||[{home:"Team A",away:"Team B"}];
+  grid.innerHTML='';
+  temps.forEach(t=>{
+    const btn=document.createElement('button');
+    const used=matches.some(m=>leagueKey(m)===league&&m.home===t.home&&m.away===t.away);
+    btn.className='quick-chip'+(used?' used':'');
+    btn.textContent=`${t.home} vs ${t.away}`;
+    if(!used) btn.onclick=()=>quickAdd(league,t);
+    grid.appendChild(btn);
+  });
+}
+function quickAdd(league,t){
+  let idx=matches.length;
+  for(let i=matches.length-1;i>=0;i--) if(leagueKey(matches[i])===league){idx=i+1;break}
+  matches.splice(idx,0,{league,league_en:league,home:t.home,away:t.away,date:document.getElementById('date-str').value.trim()||'—'});
+  renderGroupTabs();renderTable();renderQuickChips();updatePagesStat();toast(`${t.home} vs ${t.away} افزوده شد`);
+}
+function renderTable(){
+  const tbody=document.getElementById('matches-body');
+  tbody.innerHTML='';
+  const q=document.getElementById('search-input').value.trim().toLowerCase();
+  let filtered=matches;
+  if(activeLeague!=='__all__') filtered=filtered.filter(m=>leagueKey(m)===activeLeague);
+  if(q) filtered=filtered.filter(m=>m.home.toLowerCase().includes(q)||m.away.toLowerCase().includes(q)||leagueKey(m).toLowerCase().includes(q));
+  if(!filtered.length){
+    tbody.innerHTML=`<tr><td colspan="6" class="empty-state"><div class="icon">📭</div><p>${q?'نتیجه‌ای یافت نشد':'بازی‌ای وجود ندارد — از پارسر یا افزودن دستی استفاده کن'}</p></td></tr>`;
+    updateStats();return;
+  }
+  let curLeague='',n=0;
+  filtered.forEach(m=>{
+    const idx=matches.indexOf(m);
+    const lg=leagueKey(m);
+    if(activeLeague==='__all__'&&lg!==curLeague){
+      curLeague=lg;
+      const gr=document.createElement('tr');gr.className='group-row';
+      const col=leagueColor(lg);
+      gr.innerHTML=`<td colspan="6" style="background:${hexToRgba(col,0.12)};color:${col};border-bottom-color:${col}"><span class="league-dot" style="background:${col}"></span> ${curLeague}</td>`;
+      tbody.appendChild(gr);
+    }
+    n++;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td class="row-num">${n}</td>
+      <td><input value="${esc(lg)}" onchange="updateMatch(${idx},'league_en',this.value)" style="font-size:11px"></td>
+      <td><input value="${esc(m.home)}" onchange="updateMatch(${idx},'home',this.value)"></td>
+      <td style="font-weight:800;color:#0A2F1F;font-size:11px">VS</td>
+      <td><input value="${esc(m.away)}" onchange="updateMatch(${idx},'away',this.value)"></td>
+      <td><button class="btn-icon btn-icon-del" onclick="removeMatch(${idx})" title="حذف">✕</button></td>`;
+    tbody.appendChild(tr);
+  });
+  updateStats();
+}
+function hexToRgba(hex, a){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+function updateStats(){
+  document.getElementById('stat-total').textContent=toFaNum(matches.length);
+  document.getElementById('stat-leagues').textContent=toFaNum(new Set(matches.map(m=>leagueKey(m))).size);
+  updatePagesStat();
+}
+function updatePagesStat(){
+  const pages = matches.length > 14 ? Math.ceil(matches.length/14) : 1;
+  const el=document.getElementById('stat-pages');
+  if(pages>1){el.style.display='';document.getElementById('stat-pages-num').textContent=toFaNum(pages);}
+  else el.style.display='none';
+}
+function updateMatch(idx,key,val){matches[idx][key]=val.trim()||'—'; if(key==='league_en') matches[idx]['league']=val.trim()||'—'; renderGroupTabs();renderQuickChips()}
+function removeMatch(idx){matches.splice(idx,1);renderGroupTabs();renderTable();renderQuickChips();toast('حذف شد')}
+function toggleManual(){
+  const b=document.getElementById('manual-body');
+  const a=document.getElementById('manual-arrow');
+  b.classList.toggle('open');a.textContent=b.classList.contains('open')?'▴':'▾';
+}
+function addManual(){
+  const league=document.getElementById('new-league').value.trim()||'—';
+  const home=document.getElementById('new-home').value.trim();
+  const away=document.getElementById('new-away').value.trim();
+  if(!home||!away){toast('Home و Away را وارد کن',true);return}
+  let idx=matches.length;
+  for(let i=matches.length-1;i>=0;i--) if(leagueKey(matches[i])===league){idx=i+1;break}
+  matches.splice(idx,0,{league,league_en:league,home,away,date:document.getElementById('date-str').value.trim()||'—'});
+  document.getElementById('new-home').value='';document.getElementById('new-away').value='';
+  renderGroupTabs();renderTable();renderQuickChips();toast('بازی افزوده شد');
+}
+function toggleBrand(){document.getElementById('brand-fields').classList.toggle('open')}
+function esc(s){return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function toFaNum(n){return String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d])}
+function exportJSON(){
+  const blob=new Blob([JSON.stringify(matches,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='matches.json';a.click();
+}
+function importJSON(e){
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{try{
+    const data=JSON.parse(r.result);
+    matches=data.map(m=>({league:m.league||m.league_en||'—',league_en:m.league_en||m.league||'—',home:m.home,away:m.away,date:m.date||'—'}));
+    activeLeague='__all__';renderGroupTabs();renderTable();renderQuickChips();toast('JSON بارگذاری شد')
+  }catch(err){toast('فایل نامعتبر',true)}};
+  r.readAsText(f);e.target.value='';
+}
+async function generate(){
+  const btn=document.getElementById('btn-generate');
+  if(!matches.length){toast('لیست بازی‌ها خالی است',true);return}
+  btn.disabled=true;btn.textContent='⏳ Generating…';
+  const area=document.getElementById('preview-area');
+  const overlay=document.createElement('div');overlay.className='loading-overlay';
+  overlay.innerHTML='<div class="spinner"></div><div style="font-size:13px;color:var(--muted)">Generating image(s)…</div>';
+  area.appendChild(overlay);
+  try{
+    const res=await fetch('/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      matches, font_size:parseInt(document.getElementById('font-size').value)||22,
+      date:document.getElementById('date-str').value.trim()||null,
+      brand:{
+        name_en:document.getElementById('brand-name-en').value.trim(),
+        subtitle:document.getElementById('brand-subtitle').value.trim(),
+        channel:document.getElementById('brand-channel').value.trim(),
+        website:document.getElementById('brand-website').value.trim()
+      }
+    })});
+    const data=await res.json();
+    if(!data.success) throw new Error(data.error);
+    currentFiles=data.files;
+    // render previews
+    area.innerHTML='';
+    const grid=document.createElement('div');
+    grid.className='preview-grid'+(data.files.length>1?' two':'');
+    data.files.forEach((f,i)=>{
+      const card=document.createElement('div');card.className='preview-card';
+      card.innerHTML=`<img src="${f.url}?t=${Date.now()+i}" alt="page ${i+1}"><span class="page-badge">Page ${i+1}/${data.files.length}</span>`;
+      card.onclick=()=>window.open(f.url,'_blank');
+      card.style.cursor='pointer';
+      grid.appendChild(card);
+    });
+    area.appendChild(grid);
+    // download bar
+    const bar=document.getElementById('download-bar');
+    bar.innerHTML='';
+    bar.style.display='flex';
+    data.files.forEach((f,i)=>{
+      const a=document.createElement('a');
+      a.className='btn btn-success';
+      a.href='/download/'+f.filename;
+      a.download=f.filename;
+      a.textContent= data.files.length>1 ? `⬇️ Download Page ${i+1}` : '⬇️ Download PNG';
+      bar.appendChild(a);
+    });
+    if(data.files.length>1){
+      const allBtn=document.createElement('button');
+      allBtn.className='btn btn-ghost';
+      allBtn.textContent='🔍 Open all';
+      allBtn.onclick=()=>data.files.forEach(f=>window.open(f.url,'_blank'));
+      bar.appendChild(allBtn);
+    }
+    toast(data.files.length>1 ? `${toFaNum(data.files.length)} تصویر تولید شد ✅` : 'تصویر تولید شد ✅');
+  }catch(e){toast('خطا: '+e.message,true); overlay.remove()}
+  finally{btn.disabled=false;btn.textContent='🎨 Generate Image(s)';const ov=area.querySelector('.loading-overlay');if(ov) ov.remove()}
+}
+</script>
+</body>
+</html>

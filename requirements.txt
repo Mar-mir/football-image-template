@@ -1,0 +1,4 @@
+Pillow>=9.0
+arabic-reshaper>=3.0
+python-bidi>=0.4
+flask>=3.0
