@@ -211,27 +211,22 @@ Bayern Munich - Dortmund
           </table>
         </div>
 
-        <div class="quick-add">
-          <div class="quick-add-title">⚡ افزودن سریع — <span id="quick-league-name">Premier League</span></div>
-          <div class="quick-add-grid" id="quick-chips"></div>
-          <div class="manual-add">
-            <div class="manual-add-header" onclick="toggleManual()">✏️ افزودن دستی بازی <span id="manual-arrow">▾</span></div>
-            <div class="manual-add-body" id="manual-body">
-              <div class="manual-add-fields">
-                <input type="text" id="new-league" placeholder="League (e.g. Premier League)" list="league-list">
-                <datalist id="league-list">
-                  <option value="Premier League"><option value="La Liga"><option value="Serie A"><option value="Ligue 1"><option value="Europa League">
-                </datalist>
-                <input type="text" id="new-home" placeholder="Home team" style="grid-column:1">
-                <input type="text" id="new-away" placeholder="Away team" style="grid-column:2">
-                <button class="btn btn-success btn-sm full" onclick="addManual()">+ افزودن</button>
-              </div>
+        <div class="manual-add" style="margin-top:16px">
+          <div class="manual-add-header" onclick="toggleManual()">✏️ افزودن دستی بازی <span id="manual-arrow">▾</span></div>
+          <div class="manual-add-body" id="manual-body">
+            <div class="manual-add-fields">
+              <input type="text" id="new-league" placeholder="League (e.g. Premier League)" list="league-list">
+              <datalist id="league-list">
+                <option value="Premier League"><option value="La Liga"><option value="Serie A"><option value="Ligue 1"><option value="Europa League"><option value="Bundesliga">
+              </datalist>
+              <input type="text" id="new-home" placeholder="Home team" style="grid-column:1">
+              <input type="text" id="new-away" placeholder="Away team" style="grid-column:2">
+              <button class="btn btn-success btn-sm full" onclick="addManual()">+ افزودن</button>
             </div>
           </div>
         </div>
 
         <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-ghost btn-sm" onclick="loadDefaults()">🔄 پیش‌فرض</button>
           <button class="btn btn-ghost btn-sm" onclick="clearAll()">🗑️ پاک کردن</button>
           <button class="btn btn-ghost btn-sm" onclick="exportJSON()">📥 JSON</button>
           <label class="btn btn-ghost btn-sm" style="cursor:pointer">📤 بارگذاری JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none"></label>
@@ -269,7 +264,7 @@ Bayern Munich - Dortmund
           <div class="form-row">
             <div class="form-group">
               <label>Channel</label>
-              <input type="text" id="brand-channel" value="@YourChannel">
+              <input type="text" id="brand-channel" value="@samimiair">
             </div>
             <div class="form-group">
               <label>Website</label>
@@ -314,7 +309,8 @@ const LEAGUE_COLORS = {
   "La Liga": "#EF6C00",
   "Serie A": "#2E7D32",
   "Ligue 1": "#00838F",
-  "Europa League": "#AD1457"
+  "Europa League": "#AD1457",
+  "Bundesliga": "#D32F2F"
 };
 const LEAGUES = Object.keys(LEAGUE_COLORS);
 const QUICK_TEMPLATES = {
@@ -322,7 +318,8 @@ const QUICK_TEMPLATES = {
   "La Liga": [{home:"Real Madrid",away:"Barcelona"},{home:"Atletico Madrid",away:"Sevilla"},{home:"Valencia",away:"Villarreal"}],
   "Serie A": [{home:"Inter",away:"Juventus"},{home:"AC Milan",away:"Napoli"},{home:"Roma",away:"Lazio"}],
   "Ligue 1": [{home:"PSG",away:"Marseille"},{home:"Lyon",away:"Monaco"},{home:"Lille",away:"Nice"}],
-  "Europa League": [{home:"Roma",away:"Sevilla"},{home:"Leverkusen",away:"Benfica"},{home:"Villarreal",away:"Marseille"}]
+  "Europa League": [{home:"Roma",away:"Sevilla"},{home:"Leverkusen",away:"Benfica"},{home:"Villarreal",away:"Marseille"}],
+  "Bundesliga": [{home:"Bayern Munich",away:"Dortmund"},{home:"Leverkusen",away:"Union Berlin"},{home:"Leipzig",away:"Stuttgart"}]
 };
 
 document.addEventListener('DOMContentLoaded',()=>{loadDefaults();});
@@ -410,25 +407,17 @@ function renderGroupTabs(){
     b.className='group-tab'+(activeLeague===l?' active':'');
     const dot=`<span class="league-dot" style="background:${leagueColor(l)};width:9px;height:9px;margin-left:0;margin-right:6px"></span>`;
     b.innerHTML=`${dot}${l} <span class="tab-count">${toFaNum(cnt)}</span>`;
-    b.onclick=()=>{activeLeague=l;document.getElementById('new-league').value=l;document.getElementById('quick-league-name').textContent=l;renderGroupTabs();renderTable();renderQuickChips()};
+    b.onclick=()=>{activeLeague=l;document.getElementById('new-league').value=l;renderGroupTabs();renderTable();};
     c.appendChild(b);
   });
 }
 function renderQuickChips(){
-  const grid=document.getElementById('quick-chips');
-  const league=activeLeague==='__all__'?'Premier League':activeLeague;
-  document.getElementById('quick-league-name').textContent=league;
-  document.getElementById('new-league').value=league;
-  const temps=QUICK_TEMPLATES[league]||[{home:"Team A",away:"Team B"}];
-  grid.innerHTML='';
-  temps.forEach(t=>{
-    const btn=document.createElement('button');
-    const used=matches.some(m=>leagueKey(m)===league&&m.home===t.home&&m.away===t.away);
-    btn.className='quick-chip'+(used?' used':'');
-    btn.textContent=`${t.home} vs ${t.away}`;
-    if(!used) btn.onclick=()=>quickAdd(league,t);
-    grid.appendChild(btn);
-  });
+  // removed quick-add UI — keep as no-op for compat, just sync new-league input
+  const el=document.getElementById('new-league');
+  if(el){
+    const league=activeLeague==='__all__'?'Premier League':activeLeague;
+    if(!el.value || el.value==='—') el.value=league;
+  }
 }
 function quickAdd(league,t){
   let idx=matches.length;
