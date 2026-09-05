@@ -274,7 +274,7 @@ Bayern Munich - Dortmund
         </div>
         <div style="margin-top:16px">
           <button class="btn btn-primary btn-lg btn-block" id="btn-generate" onclick="generate()">🎨 Generate Image(s)</button>
-          <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px">بیش از ۱۴ بازی → خودکار ۲ تصویری</div>
+          <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px" id="generate-hint">«همه ۲۲» انتخابه → همه خروجی میگیره — روی یک لیگ بزن تا فقط همون لیگ خروجی بگیره</div>
         </div>
       </div>
     </div>
@@ -475,11 +475,21 @@ function updateStats(){
   document.getElementById('stat-leagues').textContent=toFaNum(new Set(matches.map(m=>leagueKey(m))).size);
   updatePagesStat();
 }
+function updateGenerateHint(){
+  const h=document.getElementById('generate-hint');
+  if(!h) return;
+  if(activeLeague==='__all__') h.textContent = `«همه ${toFaNum(matches.length)}» انتخابه → همه خروجی میگیره — روی یک لیگ بزن تا فقط همون لیگ خروجی بگیره`;
+  else {
+    const cnt = matches.filter(m=>leagueKey(m)===activeLeague).length;
+    h.textContent = `«${activeLeague} ${toFaNum(cnt)}» انتخابه → فقط همین لیگ خروجی میگیره — «همه» بزن برای همه`;
+  }
+}
 function updatePagesStat(){
   const pages = matches.length > 14 ? Math.ceil(matches.length/14) : 1;
   const el=document.getElementById('stat-pages');
   if(pages>1){el.style.display='';document.getElementById('stat-pages-num').textContent=toFaNum(pages);}
   else el.style.display='none';
+  updateGenerateHint();
 }
 function updateMatch(idx,key,val){matches[idx][key]=val.trim()||'—'; if(key==='league_en') matches[idx]['league']=val.trim()||'—'; renderGroupTabs();renderQuickChips()}
 function removeMatch(idx){matches.splice(idx,1);renderGroupTabs();renderTable();renderQuickChips();toast('حذف شد')}
@@ -518,15 +528,23 @@ function importJSON(e){
 }
 async function generate(){
   const btn=document.getElementById('btn-generate');
-  if(!matches.length){toast('لیست بازی‌ها خالی است',true);return}
-  btn.disabled=true;btn.textContent='⏳ Generating…';
+  if(!matches.length){toast('لیست بازیها خالی است',true);return}
+  // respect active league filter: if a league tab is selected, generate only that league
+  let toGenerate = matches;
+  let filterNote = '';
+  if(activeLeague !== '__all__'){
+    toGenerate = matches.filter(m=>leagueKey(m)===activeLeague);
+    if(!toGenerate.length){toast('این لیگ بازیای ندارد',true);return}
+    filterNote = ` (${activeLeague})`;
+  }
+  btn.disabled=true;btn.textContent='⏳ Generating...';
   const area=document.getElementById('preview-area');
   const overlay=document.createElement('div');overlay.className='loading-overlay';
-  overlay.innerHTML='<div class="spinner"></div><div style="font-size:13px;color:var(--muted)">Generating image(s)…</div>';
+  overlay.innerHTML='<div class="spinner"></div><div style="font-size:13px;color:var(--muted)">Generating'+filterNote+' image(s)...</div>';
   area.appendChild(overlay);
   try{
     const res=await fetch('/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      matches, font_size:parseInt(document.getElementById('font-size').value)||22,
+      matches: toGenerate, font_size:parseInt(document.getElementById('font-size').value)||22,
       date:document.getElementById('date-str').value.trim()||null,
       brand:{
         name_en:document.getElementById('brand-name-en').value.trim(),
@@ -569,7 +587,7 @@ async function generate(){
       allBtn.onclick=()=>data.files.forEach(f=>window.open(f.url,'_blank'));
       bar.appendChild(allBtn);
     }
-    toast(data.files.length>1 ? `${toFaNum(data.files.length)} تصویر تولید شد ✅` : 'تصویر تولید شد ✅');
+    toast((filterNote?filterNote+' — ':'') + (data.files.length>1 ? `${toFaNum(data.files.length)} تصویر تولید شد ✅` : 'تصویر تولید شد ✅'));
   }catch(e){toast('خطا: '+e.message,true); overlay.remove()}
   finally{btn.disabled=false;btn.textContent='🎨 Generate Image(s)';const ov=area.querySelector('.loading-overlay');if(ov) ov.remove()}
 }
