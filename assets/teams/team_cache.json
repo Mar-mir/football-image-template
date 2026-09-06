@@ -1,311 +1,374 @@
 {
+  "ac_milan": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wvspur1448806617.png",
+    "local": "/root/football-image-template/assets/teams/ac_milan.png",
+    "q": "AC Milan",
+    "team": "AC Milan"
+  },
   "arsenal": {
-    "team": "Arsenal",
-    "local": "/root/football-image-template/assets/teams/arsenal.png",
     "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/uyhbfe1612467038.png",
-    "q": "Arsenal"
-  },
-  "manchester_city": {
-    "team": "Manchester City",
-    "local": "/root/football-image-template/assets/teams/manchester_city.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
-    "q": "Manchester City"
-  },
-  "real_madrid": {
-    "team": "Real Madrid",
-    "local": "/root/football-image-template/assets/teams/real_madrid.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vwvwrw1473502969.png",
-    "q": "Real Madrid"
-  },
-  "inter_milan": {
-    "team": "Inter Milan",
-    "local": "/root/football-image-template/assets/teams/inter_milan.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/ryhu6d1617113103.png",
-    "q": "Inter Milan"
-  },
-  "paris_sg": {
-    "team": "Paris SG",
-    "local": "/root/football-image-template/assets/teams/paris_sg.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/has8b01763050866.png",
-    "q": "Paris SG"
-  },
-  "roma": {
-    "team": "Roma",
-    "local": "/root/football-image-template/assets/teams/as_roma.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/jwro2s1760820674.png",
-    "q": "AS Roma"
+    "local": "/root/football-image-template/assets/teams/arsenal.png",
+    "q": "Arsenal",
+    "team": "Arsenal"
   },
   "as_roma": {
-    "team": "AS Roma",
-    "local": "/root/football-image-template/assets/teams/as_roma.png",
     "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/jwro2s1760820674.png",
-    "q": "AS Roma"
-  },
-  "brentford": {
-    "team": "Brentford",
-    "local": "/root/football-image-template/assets/teams/brentford.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/grv1aw1546453779.png",
-    "q": "Brentford"
-  },
-  "lens": {
-    "team": "Lens",
-    "local": "/root/football-image-template/assets/teams/lens.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3pxoum1598797195.png",
-    "q": "Lens"
-  },
-  "fulham": {
-    "team": "Fulham",
-    "local": "/root/football-image-template/assets/teams/fulham.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/xwwvyt1448811086.png",
-    "q": "Fulham"
-  },
-  "leeds": {
-    "team": "Leeds",
-    "local": "/root/football-image-template/assets/teams/leeds.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wwypqp1425326584.png",
-    "q": "Leeds"
-  },
-  "brighton": {
-    "team": "Brighton",
-    "local": "/root/football-image-template/assets/teams/brighton_hove_albion.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/zn0x7h1605371909.png",
-    "q": "Brighton & Hove Albion"
-  },
-  "brighton_hove_albion": {
-    "team": "Brighton & Hove Albion",
-    "local": "/root/football-image-template/assets/teams/brighton_hove_albion.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/zn0x7h1605371909.png",
-    "q": "Brighton & Hove Albion"
-  },
-  "newcastle": {
-    "team": "Newcastle",
-    "local": "/root/football-image-template/assets/teams/newcastle_united.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/lhwuiz1621593302.png",
-    "q": "Newcastle United"
-  },
-  "newcastle_united": {
-    "team": "Newcastle United",
-    "local": "/root/football-image-template/assets/teams/newcastle_united.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/lhwuiz1621593302.png",
-    "q": "Newcastle United"
-  },
-  "bournemouth": {
-    "team": "Bournemouth",
-    "local": "/root/football-image-template/assets/teams/bournemouth.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/y08nak1534071116.png",
-    "q": "Bournemouth"
-  },
-  "sunderland": {
-    "team": "Sunderland",
-    "local": "/root/football-image-template/assets/teams/sunderland.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/tprtus1448813498.png",
-    "q": "Sunderland"
-  },
-  "crystal_palace": {
-    "team": "Crystal Palace",
-    "local": "/root/football-image-template/assets/teams/crystal_palace.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/ia6i3m1656014992.png",
-    "q": "Crystal Palace"
-  },
-  "coventry": {
-    "team": "Coventry",
-    "local": "/root/football-image-template/assets/teams/coventry.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/uxyqys1424033798.png",
-    "q": "Coventry"
-  },
-  "nottingham_forest": {
-    "team": "Nottingham Forest",
-    "local": "/root/football-image-template/assets/teams/nottingham_forest.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/1i2kvh1719918076.png",
-    "q": "Nottingham Forest"
-  },
-  "tottenham": {
-    "team": "Tottenham",
-    "local": "/root/football-image-template/assets/teams/tottenham_hotspur.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/dfyfhl1604094109.png",
-    "q": "Tottenham Hotspur"
-  },
-  "tottenham_hotspur": {
-    "team": "Tottenham Hotspur",
-    "local": "/root/football-image-template/assets/teams/tottenham_hotspur.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/dfyfhl1604094109.png",
-    "q": "Tottenham Hotspur"
-  },
-  "hull_city": {
-    "team": "Hull City",
-    "local": "/root/football-image-template/assets/teams/hull_city.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/fbqqda1601726113.png",
-    "q": "Hull City"
+    "local": "/root/football-image-template/assets/teams/as_roma.png",
+    "q": "AS Roma",
+    "team": "AS Roma"
   },
   "aston_villa": {
-    "team": "Aston Villa",
-    "local": "/root/football-image-template/assets/teams/aston_villa.png",
     "badge_url": "https://www.thesportsdb.com/images/media/team/badge/uwzw561787679026.png",
-    "q": "Aston Villa"
-  },
-  "athletic_bilbao": {
-    "team": "Athletic Bilbao",
-    "local": "/root/football-image-template/assets/teams/athletic_bilbao.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/68w7fe1639408210.png",
-    "q": "Athletic Bilbao"
-  },
-  "atletico_madrid": {
-    "team": "Atletico Madrid",
-    "local": "/root/football-image-template/assets/teams/atletico_madrid.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/0ulh3q1719984315.png",
-    "q": "Atletico Madrid"
-  },
-  "rayo_vallecano": {
-    "team": "Rayo Vallecano",
-    "local": "/root/football-image-template/assets/teams/rayo_vallecano.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/nzhu941655595465.png",
-    "q": "Rayo Vallecano"
-  },
-  "racing_santander": {
-    "team": "Racing Santander",
-    "local": "/root/football-image-template/assets/teams/racing_santander.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/97kkiq1536575158.png",
-    "q": "Racing Santander"
-  },
-  "deportivo_la_coruna": {
-    "team": "Deportivo La Coruna",
-    "local": "/root/football-image-template/assets/teams/deportivo_la_coruna.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/js3j841783013173.png",
-    "q": "Deportivo La Coruna"
-  },
-  "fiorentina": {
-    "team": "Fiorentina",
-    "local": "/root/football-image-template/assets/teams/fiorentina.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/hc8nhu1656098030.png",
-    "q": "Fiorentina"
-  },
-  "torino": {
-    "team": "Torino",
-    "local": "/root/football-image-template/assets/teams/torino.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/xxprty1448806802.png",
-    "q": "Torino"
-  },
-  "inter": {
-    "team": "Inter",
-    "local": "/root/football-image-template/assets/teams/inter_milan.png",
-    "q": "Inter Milan"
-  },
-  "napoli": {
-    "team": "Napoli",
-    "local": "/root/football-image-template/assets/teams/napoli.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/l8qyxv1742982541.png",
-    "q": "Napoli"
+    "local": "/root/football-image-template/assets/teams/aston_villa.png",
+    "q": "Aston Villa",
+    "team": "Aston Villa"
   },
   "atalanta": {
-    "team": "Atalanta",
-    "local": "/root/football-image-template/assets/teams/atalanta.png",
     "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/qix5ku1780561327.png",
-    "q": "Atalanta"
+    "local": "/root/football-image-template/assets/teams/atalanta.png",
+    "q": "Atalanta",
+    "team": "Atalanta"
   },
-  "lorient": {
-    "team": "Lorient",
-    "local": "/root/football-image-template/assets/teams/lorient.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/sxsttw1473504748.png",
-    "q": "Lorient"
+  "athletic_bilbao": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/68w7fe1639408210.png",
+    "local": "/root/football-image-template/assets/teams/athletic_bilbao.png",
+    "q": "Athletic Bilbao",
+    "team": "Athletic Bilbao"
   },
-  "le_havre": {
-    "team": "Le Havre",
-    "local": "/root/football-image-template/assets/teams/le_havre.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/aikowk1546475003.png",
-    "q": "Le Havre"
+  "atletico_madrid": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/0ulh3q1719984315.png",
+    "local": "/root/football-image-template/assets/teams/atletico_madrid.png",
+    "q": "Atletico Madrid",
+    "team": "Atletico Madrid"
   },
-  "brest": {
-    "team": "Brest",
-    "local": "/root/football-image-template/assets/teams/brest.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/z69be41598797026.png",
-    "q": "Brest"
-  },
-  "nice": {
-    "team": "Nice",
-    "local": "/root/football-image-template/assets/teams/nice.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/msy7ly1621593859.png",
-    "q": "Nice"
-  },
-  "man_city": {
-    "team": "Man City",
-    "local": "/root/football-image-template/assets/teams/manchester_city.png",
-    "q": "Manchester City"
-  },
-  "psg": {
-    "team": "PSG",
-    "local": "/root/football-image-template/assets/teams/paris_sg.png",
-    "q": "Paris SG"
-  },
-  "villarreal": {
-    "team": "Villarreal",
-    "local": "/root/football-image-template/assets/teams/villarreal.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vrypqy1473503073.png",
-    "q": "Villarreal"
-  },
-  "le_mans": {
-    "team": "Le Mans",
-    "local": "/root/football-image-template/assets/teams/le_mans.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wjhziv1700145026.png",
-    "q": "Le Mans"
-  },
-  "chelsea": {
-    "team": "Chelsea",
-    "local": "/root/football-image-template/assets/teams/chelsea.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/pbf4ul1782638263.png",
-    "q": "Chelsea"
+  "augsburg": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/xqyyvq1473453233.png",
+    "local": "/root/football-image-template/assets/teams/augsburg.png",
+    "q": "Augsburg",
+    "team": "Augsburg"
   },
   "barcelona": {
-    "team": "Barcelona",
-    "local": "/root/football-image-template/assets/teams/barcelona.png",
     "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wq9sir1639406443.png",
-    "q": "Barcelona"
-  },
-  "liverpool": {
-    "team": "Liverpool",
-    "local": "/root/football-image-template/assets/teams/liverpool.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png",
-    "q": "Liverpool"
-  },
-  "juventus": {
-    "team": "Juventus",
-    "local": "/root/football-image-template/assets/teams/juventus.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/uxf0gr1742983727.png",
-    "q": "Juventus"
-  },
-  "ac_milan": {
-    "team": "AC Milan",
-    "local": "/root/football-image-template/assets/teams/ac_milan.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wvspur1448806617.png",
-    "q": "AC Milan"
-  },
-  "marseille": {
-    "team": "Marseille",
-    "local": "/root/football-image-template/assets/teams/marseille.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/c6bazh1779212287.png",
-    "q": "Marseille"
-  },
-  "sevilla": {
-    "team": "Sevilla",
-    "local": "/root/football-image-template/assets/teams/sevilla.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vpsqqx1473502977.png",
-    "q": "Sevilla"
-  },
-  "leverkusen": {
-    "team": "Leverkusen",
-    "local": "/root/football-image-template/assets/teams/bayer_leverkusen.png",
-    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png",
-    "q": "Bayer Leverkusen"
+    "local": "/root/football-image-template/assets/teams/barcelona.png",
+    "q": "Barcelona",
+    "team": "Barcelona"
   },
   "bayer_leverkusen": {
-    "team": "Bayer Leverkusen",
-    "local": "/root/football-image-template/assets/teams/bayer_leverkusen.png",
     "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png",
-    "q": "Bayer Leverkusen"
+    "local": "/root/football-image-template/assets/teams/bayer_leverkusen.png",
+    "q": "Bayer Leverkusen",
+    "team": "Bayer Leverkusen"
+  },
+  "bayern_munich": {
+    "local": "/root/football-image-template/assets/teams/bayern_munich.png",
+    "q": "Bayern Munich",
+    "team": "Bayern Munich"
   },
   "benfica": {
-    "team": "Benfica",
-    "local": "/root/football-image-template/assets/teams/benfica.png",
     "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/hj4kyc1781152436.png",
-    "q": "Benfica"
+    "local": "/root/football-image-template/assets/teams/benfica.png",
+    "q": "Benfica",
+    "team": "Benfica"
+  },
+  "bournemouth": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/y08nak1534071116.png",
+    "local": "/root/football-image-template/assets/teams/bournemouth.png",
+    "q": "Bournemouth",
+    "team": "Bournemouth"
+  },
+  "brentford": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/grv1aw1546453779.png",
+    "local": "/root/football-image-template/assets/teams/brentford.png",
+    "q": "Brentford",
+    "team": "Brentford"
+  },
+  "brest": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/z69be41598797026.png",
+    "local": "/root/football-image-template/assets/teams/brest.png",
+    "q": "Brest",
+    "team": "Brest"
+  },
+  "brighton": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/zn0x7h1605371909.png",
+    "local": "/root/football-image-template/assets/teams/brighton_hove_albion.png",
+    "q": "Brighton & Hove Albion",
+    "team": "Brighton"
+  },
+  "brighton_hove_albion": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/zn0x7h1605371909.png",
+    "local": "/root/football-image-template/assets/teams/brighton_hove_albion.png",
+    "q": "Brighton & Hove Albion",
+    "team": "Brighton & Hove Albion"
+  },
+  "chelsea": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/pbf4ul1782638263.png",
+    "local": "/root/football-image-template/assets/teams/chelsea.png",
+    "q": "Chelsea",
+    "team": "Chelsea"
+  },
+  "coventry": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/uxyqys1424033798.png",
+    "local": "/root/football-image-template/assets/teams/coventry.png",
+    "q": "Coventry",
+    "team": "Coventry"
+  },
+  "crystal_palace": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/ia6i3m1656014992.png",
+    "local": "/root/football-image-template/assets/teams/crystal_palace.png",
+    "q": "Crystal Palace",
+    "team": "Crystal Palace"
+  },
+  "deportivo_la_coruna": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/js3j841783013173.png",
+    "local": "/root/football-image-template/assets/teams/deportivo_la_coruna.png",
+    "q": "Deportivo La Coruna",
+    "team": "Deportivo La Coruna"
+  },
+  "dortmund": {
+    "local": "/root/football-image-template/assets/teams/dortmund.png",
+    "q": "Dortmund",
+    "team": "Dortmund"
+  },
+  "fiorentina": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/hc8nhu1656098030.png",
+    "local": "/root/football-image-template/assets/teams/fiorentina.png",
+    "q": "Fiorentina",
+    "team": "Fiorentina"
+  },
+  "freiburg": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/urwtup1473453288.png",
+    "local": "/root/football-image-template/assets/teams/freiburg.png",
+    "q": "Freiburg",
+    "team": "Freiburg"
+  },
+  "fulham": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/xwwvyt1448811086.png",
+    "local": "/root/football-image-template/assets/teams/fulham.png",
+    "q": "Fulham",
+    "team": "Fulham"
+  },
+  "hoffenheim": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/9hwvb21621593919.png",
+    "local": "/root/football-image-template/assets/teams/hoffenheim.png",
+    "q": "Hoffenheim",
+    "team": "Hoffenheim"
+  },
+  "hull_city": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/fbqqda1601726113.png",
+    "local": "/root/football-image-template/assets/teams/hull_city.png",
+    "q": "Hull City",
+    "team": "Hull City"
+  },
+  "inter": {
+    "local": "/root/football-image-template/assets/teams/inter_milan.png",
+    "q": "Inter Milan",
+    "team": "Inter"
+  },
+  "inter_milan": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/ryhu6d1617113103.png",
+    "local": "/root/football-image-template/assets/teams/inter_milan.png",
+    "q": "Inter Milan",
+    "team": "Inter Milan"
+  },
+  "juventus": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/uxf0gr1742983727.png",
+    "local": "/root/football-image-template/assets/teams/juventus.png",
+    "q": "Juventus",
+    "team": "Juventus"
+  },
+  "le_havre": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/aikowk1546475003.png",
+    "local": "/root/football-image-template/assets/teams/le_havre.png",
+    "q": "Le Havre",
+    "team": "Le Havre"
+  },
+  "le_mans": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wjhziv1700145026.png",
+    "local": "/root/football-image-template/assets/teams/le_mans.png",
+    "q": "Le Mans",
+    "team": "Le Mans"
+  },
+  "leeds": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wwypqp1425326584.png",
+    "local": "/root/football-image-template/assets/teams/leeds.png",
+    "q": "Leeds",
+    "team": "Leeds"
+  },
+  "leipzig": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/ol3auz1625363043.png",
+    "local": "/root/football-image-template/assets/teams/leipzig.png",
+    "q": "Leipzig",
+    "team": "Leipzig"
+  },
+  "lens": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3pxoum1598797195.png",
+    "local": "/root/football-image-template/assets/teams/lens.png",
+    "q": "Lens",
+    "team": "Lens"
+  },
+  "leverkusen": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png",
+    "local": "/root/football-image-template/assets/teams/bayer_leverkusen.png",
+    "q": "Bayer Leverkusen",
+    "team": "Leverkusen"
+  },
+  "liverpool": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png",
+    "local": "/root/football-image-template/assets/teams/liverpool.png",
+    "q": "Liverpool",
+    "team": "Liverpool"
+  },
+  "lorient": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/sxsttw1473504748.png",
+    "local": "/root/football-image-template/assets/teams/lorient.png",
+    "q": "Lorient",
+    "team": "Lorient"
+  },
+  "m_nchengladbach": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/sysurw1473453380.png",
+    "local": "/root/football-image-template/assets/teams/m_nchengladbach.png",
+    "q": "Mönchengladbach",
+    "team": "Mönchengladbach"
+  },
+  "man_city": {
+    "local": "/root/football-image-template/assets/teams/manchester_city.png",
+    "q": "Manchester City",
+    "team": "Man City"
+  },
+  "manchester_city": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
+    "local": "/root/football-image-template/assets/teams/manchester_city.png",
+    "q": "Manchester City",
+    "team": "Manchester City"
+  },
+  "marseille": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/c6bazh1779212287.png",
+    "local": "/root/football-image-template/assets/teams/marseille.png",
+    "q": "Marseille",
+    "team": "Marseille"
+  },
+  "napoli": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/l8qyxv1742982541.png",
+    "local": "/root/football-image-template/assets/teams/napoli.png",
+    "q": "Napoli",
+    "team": "Napoli"
+  },
+  "newcastle": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/lhwuiz1621593302.png",
+    "local": "/root/football-image-template/assets/teams/newcastle_united.png",
+    "q": "Newcastle United",
+    "team": "Newcastle"
+  },
+  "newcastle_united": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/lhwuiz1621593302.png",
+    "local": "/root/football-image-template/assets/teams/newcastle_united.png",
+    "q": "Newcastle United",
+    "team": "Newcastle United"
+  },
+  "nice": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/msy7ly1621593859.png",
+    "local": "/root/football-image-template/assets/teams/nice.png",
+    "q": "Nice",
+    "team": "Nice"
+  },
+  "nottingham_forest": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/1i2kvh1719918076.png",
+    "local": "/root/football-image-template/assets/teams/nottingham_forest.png",
+    "q": "Nottingham Forest",
+    "team": "Nottingham Forest"
+  },
+  "paderborn": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/kddvva1566048058.png",
+    "local": "/root/football-image-template/assets/teams/paderborn.png",
+    "q": "Paderborn",
+    "team": "Paderborn"
+  },
+  "paris_sg": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/has8b01763050866.png",
+    "local": "/root/football-image-template/assets/teams/paris_sg.png",
+    "q": "Paris SG",
+    "team": "Paris SG"
+  },
+  "psg": {
+    "local": "/root/football-image-template/assets/teams/paris_sg.png",
+    "q": "Paris SG",
+    "team": "PSG"
+  },
+  "racing_santander": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/97kkiq1536575158.png",
+    "local": "/root/football-image-template/assets/teams/racing_santander.png",
+    "q": "Racing Santander",
+    "team": "Racing Santander"
+  },
+  "rayo_vallecano": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/nzhu941655595465.png",
+    "local": "/root/football-image-template/assets/teams/rayo_vallecano.png",
+    "q": "Rayo Vallecano",
+    "team": "Rayo Vallecano"
+  },
+  "real_madrid": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vwvwrw1473502969.png",
+    "local": "/root/football-image-template/assets/teams/real_madrid.png",
+    "q": "Real Madrid",
+    "team": "Real Madrid"
+  },
+  "roma": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/jwro2s1760820674.png",
+    "local": "/root/football-image-template/assets/teams/as_roma.png",
+    "q": "AS Roma",
+    "team": "Roma"
+  },
+  "schalke": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/hnci291621593978.png",
+    "local": "/root/football-image-template/assets/teams/schalke.png",
+    "q": "Schalke",
+    "team": "Schalke"
+  },
+  "sevilla": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vpsqqx1473502977.png",
+    "local": "/root/football-image-template/assets/teams/sevilla.png",
+    "q": "Sevilla",
+    "team": "Sevilla"
+  },
+  "sunderland": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/tprtus1448813498.png",
+    "local": "/root/football-image-template/assets/teams/sunderland.png",
+    "q": "Sunderland",
+    "team": "Sunderland"
+  },
+  "torino": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/xxprty1448806802.png",
+    "local": "/root/football-image-template/assets/teams/torino.png",
+    "q": "Torino",
+    "team": "Torino"
+  },
+  "tottenham": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/dfyfhl1604094109.png",
+    "local": "/root/football-image-template/assets/teams/tottenham_hotspur.png",
+    "q": "Tottenham Hotspur",
+    "team": "Tottenham"
+  },
+  "tottenham_hotspur": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/dfyfhl1604094109.png",
+    "local": "/root/football-image-template/assets/teams/tottenham_hotspur.png",
+    "q": "Tottenham Hotspur",
+    "team": "Tottenham Hotspur"
+  },
+  "union_berlin": {
+    "local": "/root/football-image-template/assets/teams/union_berlin.png",
+    "q": "Union Berlin",
+    "team": "Union Berlin"
+  },
+  "villarreal": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vrypqy1473503073.png",
+    "local": "/root/football-image-template/assets/teams/villarreal.png",
+    "q": "Villarreal",
+    "team": "Villarreal"
+  },
+  "werder_bremen": {
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/tkvqan1716960454.png",
+    "local": "/root/football-image-template/assets/teams/werder_bremen.png",
+    "q": "Werder Bremen",
+    "team": "Werder Bremen"
   }
 }

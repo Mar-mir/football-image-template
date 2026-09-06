@@ -21,10 +21,17 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 
 FONT_DIR = os.path.join(os.path.dirname(__file__), "fonts")
-LOCAL_OUTPUT = os.path.join(os.path.dirname(__file__), "output")
+# Vercel-safe local output
+if os.environ.get("VERCEL"):
+    LOCAL_OUTPUT = "/tmp/football_output"
+else:
+    LOCAL_OUTPUT = os.path.join(os.path.dirname(__file__), "output")
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-os.makedirs(LOCAL_OUTPUT, exist_ok=True)
+try:
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    os.makedirs(LOCAL_OUTPUT, exist_ok=True)
+except Exception:
+    pass
 
 
 @app.route("/")

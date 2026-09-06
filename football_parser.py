@@ -19,7 +19,7 @@ def normalize_text(s: str) -> str:
     s = re.sub(r"\s+", " ", s)
     return s
 
-ALLOWED_LEAGUES_EN = {"Premier League", "La Liga", "Serie A", "Ligue 1", "Europa League"}
+ALLOWED_LEAGUES_EN = {"Premier League", "La Liga", "Serie A", "Ligue 1", "Europa League", "Bundesliga"}
 
 LEAGUE_MAP = {
     "لیگ برتر انگلیس": ("لیگ برتر انگلیس", "Premier League"),
@@ -42,6 +42,9 @@ LEAGUE_MAP = {
     "ligue 1": ("لیگ فرانسه", "Ligue 1"),
     "فرانسه": ("لیگ فرانسه", "Ligue 1"),
     "لوشامپیونه": ("لیگ فرانسه", "Ligue 1"),
+    "بوندسلیگا": ("بوندسلیگا", "Bundesliga"),
+    "bundesliga": ("بوندسلیگا", "Bundesliga"),
+    "آلمان": ("بوندسلیگا", "Bundesliga"),
 }
 
 def canonical_league(raw: str):
@@ -144,8 +147,8 @@ def _header_league(line: str):
         for k, v in LEAGUE_MAP.items():
             if k in low:
                 return v
-        # check blocked leagues explicitly
-        if "bundesliga" in low or "champions" in low or "persian" in low or "iran" in low:
+        # check blocked leagues explicitly (Bundesliga is now allowed)
+        if "champions" in low or "persian" in low or "iran" in low:
             return "BLOCKED", "BLOCKED"
         return None, None
     return fa, en

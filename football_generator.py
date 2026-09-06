@@ -55,17 +55,23 @@ def make_initials_badge(text, size, bg_color="#E0E0E0", fg="#424242"):
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 FONT_PATH = os.path.join(_SCRIPT_DIR, "fonts", "Vazirmatn-Bold.ttf")
 FONT_MEDIUM_PATH = os.path.join(_SCRIPT_DIR, "fonts", "Vazirmatn-Medium.ttf")
-OUTPUT_DIR = os.path.expanduser("~/football_fixtures/output")
-LOCAL_OUTPUT = os.path.join(_SCRIPT_DIR, "output")
+# Vercel: only /tmp is writable — detect via VERCEL env var
+if os.environ.get("VERCEL"):
+    OUTPUT_DIR = "/tmp/football_output"
+    LOCAL_OUTPUT = "/tmp/football_output"
+else:
+    OUTPUT_DIR = os.path.expanduser("~/football_fixtures/output")
+    LOCAL_OUTPUT = os.path.join(_SCRIPT_DIR, "output")
 
 # ─── Per-league colors ───────────────────────────────────────────────────────
-# Only 5 allowed leagues: Premier League, La Liga, Serie A, Ligue 1, Europa League
+# 6 allowed leagues: Premier League, La Liga, Serie A, Ligue 1, Europa League, Bundesliga
 LEAGUE_COLORS = {
     "Premier League":          {"bg": "#F3E5F5", "text": "#4A148C", "accent": "#6A1B9A", "row_accent": "#BA68C8"},
     "La Liga":                 {"bg": "#FFF3E0", "text": "#E65100", "accent": "#EF6C00", "row_accent": "#FFB74D"},
     "Serie A":                 {"bg": "#E8F5E9", "text": "#1B5E20", "accent": "#2E7D32", "row_accent": "#81C784"},
     "Ligue 1":                 {"bg": "#E0F7FA", "text": "#006064", "accent": "#00838F", "row_accent": "#4DD0E1"},
     "Europa League":           {"bg": "#FCE4EC", "text": "#880E4F", "accent": "#AD1457", "row_accent": "#F06292"},
+    "Bundesliga":              {"bg": "#FFF8E1", "text": "#BF360C", "accent": "#D32F2F", "row_accent": "#FF8A65"},
 }
 FALLBACK_LEAGUE_COLOR = {"bg": "#EEEEEE", "text": "#212121", "accent": "#424242", "row_accent": "#9E9E9E"}
 
@@ -89,6 +95,7 @@ FA_TO_EN = {
     "سری آ": "Serie A",
     "لیگ اروپا": "Europa League",
     "لیگ فرانسه": "Ligue 1",
+    "بوندسلیگا": "Bundesliga",
 }
 
 def resolve_league_en(m):
@@ -112,6 +119,7 @@ LEAGUE_EMOJI = {
     "Serie A": "🇮🇹",
     "Ligue 1": "🇫🇷",
     "Europa League": "🏆",
+    "Bundesliga": "🇩🇪",
 }
 
 COLORS = {
@@ -217,6 +225,8 @@ DEFAULT_MATCHES = [
     {"league": "Ligue 1", "league_en": "Ligue 1", "home": "PSG", "away": "Marseille", "date": "2026/09/06"},
     {"league": "Europa League", "league_en": "Europa League", "home": "Roma", "away": "Sevilla", "date": "2026/09/06"},
     {"league": "Europa League", "league_en": "Europa League", "home": "Leverkusen", "away": "Benfica", "date": "2026/09/06"},
+    {"league": "Bundesliga", "league_en": "Bundesliga", "home": "Bayern Munich", "away": "Dortmund", "date": "2026/09/06"},
+    {"league": "Bundesliga", "league_en": "Bundesliga", "home": "Leverkusen", "away": "Union Berlin", "date": "2026/09/06"},
 ]
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
