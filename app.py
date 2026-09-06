@@ -14,7 +14,7 @@ from datetime import datetime
 from flask import Flask, render_template, request, jsonify, send_from_directory
 
 sys.path.insert(0, os.path.dirname(__file__))
-from football_generator import generate_fixture_images, DEFAULT_MATCHES, DEFAULT_BRAND, OUTPUT_DIR
+from football_generator import generate_fixture_images, DEFAULT_MATCHES, DEFAULT_BRAND, OUTPUT_DIR, THEMES
 from football_parser import parse_matches
 
 app = Flask(__name__)
@@ -73,6 +73,12 @@ def generate():
         # compat: channel -> twitter alias
         if brand.get("channel") and not brand.get("twitter"):
             brand["twitter"] = brand["channel"]
+        # theme: selectable palette + optional per-field overrides
+        theme = (data.get("theme") or data.get("brand",{}).get("theme") or "blue").lower().strip()
+        if theme not in THEMES: theme = "blue"
+        colors = data.get("colors") or data.get("brand",{}).get("colors") or None
+        brand["theme"] = theme
+        if colors: brand["colors"] = colors
 
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
         uid = uuid.uuid4().hex[:6]
@@ -88,6 +94,8 @@ def generate():
             font_size=font_size,
             output_dir=tmp_dir,
             date_str=date_str,
+            theme=theme,
+            colors=colors,
         )
 
         # Move to final names & mirror
@@ -117,6 +125,10 @@ def generate():
         import traceback; traceback.print_exc()
         return jsonify({"success": False, "error": str(e)}), 500
 
+
+@app.route("/themes")
+def list_themes():
+    return jsonify({"themes": list(THEMES.keys()), "colors": THEMES})
 
 @app.route("/fonts/<path:filename>")
 def serve_font(filename):

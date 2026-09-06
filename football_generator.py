@@ -135,6 +135,70 @@ COLORS = {
     "footer_muted":  "#8FB4E0",
 }
 
+# ─── Selectable themes ───────────────────────────────────────────────────────
+THEMES = {
+    "blue": COLORS,
+    "emerald": {
+        "bg": "#ECFDF5", "header_top": "#064E3B", "header_bot": "#047857",
+        "header_text": "#FFFFFF", "header_sub": "#A7F3D0",
+        "date_badge_bg": "#FFFFFF", "date_badge_fg": "#064E3B",
+        "row_even": "#FFFFFF", "row_odd": "#F0FDF4", "row_text": "#1E293B",
+        "vs_bg": "#064E3B", "vs_text": "#FFFFFF",
+        "separator": "#A7F3D0", "border": "#6EE7B7",
+        "footer_top": "#047857", "footer_bot": "#064E3B",
+        "footer_text": "#D1FAE5", "footer_muted": "#6EE7B7",
+    },
+    "charcoal": {
+        "bg": "#F1F5F9", "header_top": "#0F172A", "header_bot": "#1E293B",
+        "header_text": "#FFFFFF", "header_sub": "#94A3B8",
+        "date_badge_bg": "#FFFFFF", "date_badge_fg": "#0F172A",
+        "row_even": "#FFFFFF", "row_odd": "#F8FAFC", "row_text": "#0F172A",
+        "vs_bg": "#0F172A", "vs_text": "#FFFFFF",
+        "separator": "#CBD5E1", "border": "#94A3B8",
+        "footer_top": "#1E293B", "footer_bot": "#0F172A",
+        "footer_text": "#E2E8F0", "footer_muted": "#94A3B8",
+    },
+    "crimson": {
+        "bg": "#FEF2F2", "header_top": "#7F1D1D", "header_bot": "#B91C1C",
+        "header_text": "#FFFFFF", "header_sub": "#FECACA",
+        "date_badge_bg": "#FFFFFF", "date_badge_fg": "#7F1D1D",
+        "row_even": "#FFFFFF", "row_odd": "#FFF5F5", "row_text": "#1E293B",
+        "vs_bg": "#7F1D1D", "vs_text": "#FFFFFF",
+        "separator": "#FECACA", "border": "#FCA5A5",
+        "footer_top": "#B91C1C", "footer_bot": "#7F1D1D",
+        "footer_text": "#FECACA", "footer_muted": "#FCA5A5",
+    },
+    "violet": {
+        "bg": "#F5F3FF", "header_top": "#4C1D95", "header_bot": "#6D28D9",
+        "header_text": "#FFFFFF", "header_sub": "#DDD6FE",
+        "date_badge_bg": "#FFFFFF", "date_badge_fg": "#4C1D95",
+        "row_even": "#FFFFFF", "row_odd": "#F5F3FF", "row_text": "#1E293B",
+        "vs_bg": "#4C1D95", "vs_text": "#FFFFFF",
+        "separator": "#DDD6FE", "border": "#C4B5FD",
+        "footer_top": "#6D28D9", "footer_bot": "#4C1D95",
+        "footer_text": "#E9D5FF", "footer_muted": "#C4B5FD",
+    },
+    "midnight": {
+        "bg": "#0F172A", "header_top": "#020617", "header_bot": "#1E293B",
+        "header_text": "#F1F5F9", "header_sub": "#64748B",
+        "date_badge_bg": "#1E293B", "date_badge_fg": "#F1F5F9",
+        "row_even": "#1E293B", "row_odd": "#334155", "row_text": "#F1F5F9",
+        "vs_bg": "#E2E8F0", "vs_text": "#0F172A",
+        "separator": "#334155", "border": "#475569",
+        "footer_top": "#1E293B", "footer_bot": "#020617",
+        "footer_text": "#94A3B8", "footer_muted": "#64748B",
+    },
+}
+
+def resolve_colors(theme=None, overrides=None):
+    base = THEMES.get((theme or "blue").lower(), COLORS)
+    c = dict(base)
+    if overrides:
+        for k, v in overrides.items():
+            if v and isinstance(v, str) and v.strip():
+                c[k] = v.strip()
+    return c
+
 DEFAULT_BRAND = {
     "name_fa": "کنداکتور فوتبال",
     "name_en": "FOOTBALL FIXTURES",
@@ -198,7 +262,7 @@ def sanitize_matches(matches):
     return out
 
 # ─── Single page renderer ────────────────────────────────────────────────────
-def render_page(matches_page, brand, font_size, date_str, page_idx, total_pages, all_matches_count):
+def render_page(matches_page, brand, font_size, date_str, page_idx, total_pages, all_matches_count, theme=None, colors=None):
     # matches_page already sanitized & grouped
     fs_title = int(font_size * 1.45)
     fs_sub   = int(font_size * 0.85)
@@ -217,9 +281,16 @@ def render_page(matches_page, brand, font_size, date_str, page_idx, total_pages,
     font_footer = load_font(FONT_MEDIUM_PATH, fs_footer)
     font_badge  = load_font(FONT_PATH, fs_badge)
 
-    col_num   = 52
-    col_match  = 780
-    table_width = col_num + col_match + 16
+    C = resolve_colors(theme or brand.get("theme"), colors or brand.get("colors"))
+
+    # ── compact layout: dedicated logo columns on both sides ──
+    col_num       = 40
+    col_logo      = 44
+    col_team      = 330
+    col_vs        = 44
+    # table = # | logo_home | Home | VS | Away | logo_away
+    col_gap       = 1  # hairline separator
+    table_width = col_num + col_logo + col_team + col_vs + col_team + col_logo + col_gap*5
     img_width   = max(table_width + 48, 980)
     margin      = (img_width - table_width) // 2
 
@@ -241,12 +312,12 @@ def render_page(matches_page, brand, font_size, date_str, page_idx, total_pages,
     table_h = header_h + total_rows * row_h
     img_height = title_h + table_h + footer_h + 28
 
-    img = Image.new("RGB", (img_width, img_height), hex_to_rgb(COLORS["bg"]))
+    img = Image.new("RGB", (img_width, img_height), hex_to_rgb(C["bg"]))
     draw = ImageDraw.Draw(img)
 
     # Title bar
-    c_top = hex_to_rgb(COLORS["header_top"])
-    c_bot = hex_to_rgb(COLORS["header_bot"])
+    c_top = hex_to_rgb(C["header_top"])
+    c_bot = hex_to_rgb(C["header_bot"])
     draw_gradient_rect(img, (0, 0, img_width, title_h), c_top, c_bot)
 
     overlay = Image.new("RGBA", (img_width, title_h), (0, 0, 0, 0))
@@ -325,8 +396,8 @@ def render_page(matches_page, brand, font_size, date_str, page_idx, total_pages,
     sub_w, sub_h = text_size(draw, sub, font_sub)
     total_th = th_t + 4 + sub_h
     ty = (title_h - total_th) // 2
-    draw.text((tx, ty), title_en, fill=hex_to_rgb(COLORS["header_text"]), font=font_title)
-    draw.text((tx, ty + th_t + 4), sub, fill=hex_to_rgb(COLORS["header_sub"]), font=font_sub)
+    draw.text((tx, ty), title_en, fill=hex_to_rgb(C["header_text"]), font=font_title)
+    draw.text((tx, ty + th_t + 4), sub, fill=hex_to_rgb(C["header_sub"]), font=font_sub)
 
     # Date badge - BOLD, top-right corner
     date_label = date_str or (matches_page[0].get("date", "") if matches_page else "")
@@ -340,33 +411,40 @@ def render_page(matches_page, brand, font_size, date_str, page_idx, total_pages,
     by = (title_h - badge_h) // 2
     # shadow
     draw_rounded_rect(draw, (bx+2, by+2, bx + badge_w+2, by + badge_h+2), radius=badge_h // 2, fill=(0,0,0,40))
-    draw_rounded_rect(draw, (bx, by, bx + badge_w, by + badge_h), radius=badge_h // 2, fill=hex_to_rgb(COLORS["date_badge_bg"]), outline=hex_to_rgb("#E0E0E0"), width=1)
-    draw.text((bx + pad_x, by + pad_y - 1), badge_text, fill=hex_to_rgb(COLORS["date_badge_fg"]), font=font_date_bold)
+    draw_rounded_rect(draw, (bx, by, bx + badge_w, by + badge_h), radius=badge_h // 2, fill=hex_to_rgb(C["date_badge_bg"]), outline=hex_to_rgb("#E0E0E0"), width=1)
+    draw.text((bx + pad_x, by + pad_y - 1), badge_text, fill=hex_to_rgb(C["date_badge_fg"]), font=font_date_bold)
     # page indicator (small, below badge gap)
     if total_pages > 1:
         page_text = f"Page {page_idx+1}/{total_pages}  •  {all_matches_count} matches"
     else:
         page_text = f"{len(matches_page)} matches"
     tw_p, th_p = text_size(draw, page_text, font_small)
-    draw.text((bx - tw_p - 12, by + (badge_h - th_p)//2), page_text, fill=hex_to_rgb(COLORS["header_sub"]), font=font_small)
+    draw.text((bx - tw_p - 12, by + (badge_h - th_p)//2), page_text, fill=hex_to_rgb(C["header_sub"]), font=font_small)
 
     y = title_h
 
-    # Table header — ENGLISH: # | Match (centered)
-    draw.rounded_rectangle([margin, y, img_width - margin, y + header_h], radius=10, fill=hex_to_rgb(COLORS["header_top"]), outline=None)
-    draw_gradient_rect(img, (margin, y, img_width - margin, y + header_h), hex_to_rgb(COLORS["header_top"]), hex_to_rgb(COLORS["header_bot"]))
+    # Table header — 6 columns: # | ☰ | Home | VS | Away | ☰
+    draw.rounded_rectangle([margin, y, img_width - margin, y + header_h], radius=10, fill=hex_to_rgb(C["header_top"]), outline=None)
+    draw_gradient_rect(img, (margin, y, img_width - margin, y + header_h), hex_to_rgb(C["header_top"]), hex_to_rgb(C["header_bot"]))
     draw = ImageDraw.Draw(img)
-    draw.rounded_rectangle([margin, y, img_width - margin, y + header_h], radius=10, outline=hex_to_rgb(COLORS["border"]), width=1)
+    draw.rounded_rectangle([margin, y, img_width - margin, y + header_h], radius=10, outline=hex_to_rgb(C["border"]), width=1)
 
     headers = [
         ("#", col_num),
-        ("Match", col_match),
+        ("", col_logo),
+        ("Home", col_team),
+        ("VS", col_vs),
+        ("Away", col_team),
+        ("", col_logo),
     ]
-    x = margin
-    for text, w in headers:
-        tw, th = text_size(draw, text, font_header)
-        draw.text((x + (w - tw)//2, y + (header_h - th)//2), text, fill=hex_to_rgb(COLORS["header_text"]), font=font_header)
-        x += w
+    xh = margin
+    for idx_h, (text, w) in enumerate(headers):
+        if text:
+            tw, th = text_size(draw, text, font_header)
+            draw.text((xh + (w - tw)//2, y + (header_h - th)//2), text, fill=hex_to_rgb(C["header_text"]), font=font_header)
+        xh += w
+        if idx_h < len(headers)-1:
+            draw.line([(xh, y+6), (xh, y+header_h-6)], fill=(255,255,255,28), width=1)
 
     y += header_h
 
@@ -428,162 +506,121 @@ def render_page(matches_page, brand, font_size, date_str, page_idx, total_pages,
         for m in group_map[lg]:
             global_offset += 1
             row_idx += 1
-            bg = hex_to_rgb(COLORS["row_even"] if row_idx % 2 == 0 else COLORS["row_odd"])
+            bg = hex_to_rgb(C["row_even"] if row_idx % 2 == 0 else C["row_odd"])
             draw.rectangle([margin, y, img_width - margin, y + row_h], fill=bg)
             # left accent tick per league
             draw.rectangle([margin, y, margin + 3, y + row_h], fill=hex_to_rgb(lc["row_accent"]))
 
-            x = margin
-            start_num = brand.get("_page_start", 0)
-            disp_num = str(start_num + row_idx)
-            tw_n, th_n = text_size(draw, disp_num, font_small)
-            draw.text((x + (col_num - tw_n)//2, y + (row_h - th_n)//2), disp_num, fill=(100,116,139), font=font_small)
-            x += col_num
-            draw.line([(x, y + 5), (x, y + row_h - 5)], fill=hex_to_rgb(COLORS["separator"]), width=1)
+            # ── 6-column row: # | logo_home | Home | VS | Away | logo_away ──
+            def _paste_logo(logo_img, cx, cy):
+                if logo_img is None:
+                    return
+                sz = logo_img.size[0]
+                bg_c = Image.new("RGBA", (sz,sz), (255,255,255,255))
+                mask_c = Image.new("L", (sz,sz), 0)
+                ImageDraw.Draw(mask_c).ellipse([0,0,sz-1,sz-1], fill=255)
+                tmp_c = Image.new("RGBA", (sz,sz), (0,0,0,0))
+                tmp_c.paste(bg_c, (0,0), mask_c)
+                tmp_c.alpha_composite(logo_img)
+                ImageDraw.Draw(tmp_c).ellipse([0,0,sz-1,sz-1], outline=(200,200,200,110), width=1)
+                ov = Image.new("RGBA", img.size, (0,0,0,0))
+                ov.paste(tmp_c, (cx, cy))
+                rr = img.convert("RGBA")
+                rr.alpha_composite(ov)
+                img.paste(rr.convert("RGB"))
 
-            # match: home logo + home VS away + away logo — centered in col_match
-            home = m.get("home", "—")
-            away = m.get("away", "—")
-            tw_h, th_h = text_size(draw, home, font_body)
-            tw_a, th_a = text_size(draw, away, font_body)
-            # dash separator between teams (clean, readable)
-            dash_label = "—"
-            # use en-dash with generous side gaps
-            gap = 22  # breathing room on both sides of dash
-            total_w = tw_h + gap*2 + tw_a  # gap on each side of dash
-            max_match_w = col_match - 12
-            if total_w > max_match_w:
-                if tw_h >= tw_a and tw_h > 60:
-                    for cut_len in range(len(home), 1, -1):
-                        cand = home[:cut_len] + "…"
-                        cw, _ = text_size(draw, cand, font_body)
-                        if tw_h - cw >= (total_w - max_match_w) * 0.6 - 4:
-                            home = cand
-                            break
-                elif tw_a > 60:
-                    for cut_len in range(len(away), 1, -1):
-                        cand = away[:cut_len] + "…"
-                        cw, _ = text_size(draw, cand, font_body)
-                        if tw_a - cw >= (total_w - max_match_w) * 0.6 - 4:
-                            away = cand
-                            break
-                tw_h, th_h = text_size(draw, home, font_body)
-                tw_a, th_a = text_size(draw, away, font_body)
-                total_w = tw_h + gap*2 + tw_a  # gap on each side of dash
-
-            # Team logos
-            logo_size = row_h - 14
-            home_logo_path = get_team_logo(m.get("home","")) if LOGOS_AVAILABLE else None
-            away_logo_path = get_team_logo(m.get("away","")) if LOGOS_AVAILABLE else None
-            home_logo = load_logo_image(home_logo_path, logo_size) if home_logo_path else None
-            away_logo = load_logo_image(away_logo_path, logo_size) if away_logo_path else None
-            # Fallback: initials badge if no logo
+            home = m.get("home", "\u2014")
+            away = m.get("away", "\u2014")
+            logo_size = min(col_logo - 10, row_h - 12)
+            hl_path = get_team_logo(m.get("home","")) if LOGOS_AVAILABLE else None
+            al_path = get_team_logo(m.get("away","")) if LOGOS_AVAILABLE else None
+            home_logo = load_logo_image(hl_path, logo_size) if hl_path else None
+            away_logo = load_logo_image(al_path, logo_size) if al_path else None
             if not home_logo and LOGOS_AVAILABLE:
                 try:
-                    bg_col = league_color(lg).get("accent","#E0E0E0")
-                    # generate badge with letter
+                    bg_col = league_color(lg).get("accent","#9E9E9E")
                     badge, letter = make_initials_badge(m.get("home",""), logo_size, bg_color=bg_col)
-                    # draw letter centered
-                    fb_font = load_font(FONT_PATH, max(10, logo_size//2))
-                    # need draw for badge
-                    tmp_draw = ImageDraw.Draw(badge)
-                    tw2, th2 = text_size(tmp_draw, letter, fb_font)
-                    tmp_draw.text(((logo_size - tw2)//2, (logo_size - th2)//2 -1), letter, fill=(255,255,255), font=fb_font)
+                    fb = load_font(FONT_PATH, max(10, logo_size//2))
+                    d2 = ImageDraw.Draw(badge)
+                    tw2, th2 = text_size(d2, letter, fb)
+                    d2.text(((logo_size - tw2)//2, (logo_size - th2)//2 -1), letter, fill=(255,255,255), font=fb)
                     home_logo = badge
-                except Exception as e:
+                except Exception:
                     pass
             if not away_logo and LOGOS_AVAILABLE:
                 try:
-                    bg_col2 = league_color(lg).get("accent","#E0E0E0")
+                    bg_col2 = league_color(lg).get("accent","#9E9E9E")
                     badge2, letter2 = make_initials_badge(m.get("away",""), logo_size, bg_color=bg_col2)
-                    fb_font2 = load_font(FONT_PATH, max(10, logo_size//2))
-                    tmp_draw2 = ImageDraw.Draw(badge2)
-                    tw2, th2 = text_size(tmp_draw2, letter2, fb_font2)
-                    tmp_draw2.text(((logo_size - tw2)//2, (logo_size - th2)//2 -1), letter2, fill=(255,255,255), font=fb_font2)
+                    fb2 = load_font(FONT_PATH, max(10, logo_size//2))
+                    d3 = ImageDraw.Draw(badge2)
+                    tw2, th2 = text_size(d3, letter2, fb2)
+                    d3.text(((logo_size - tw2)//2, (logo_size - th2)//2 -1), letter2, fill=(255,255,255), font=fb2)
                     away_logo = badge2
                 except Exception:
                     pass
-            # Recalculate total_w with logos
-            logo_gap2 = 6
-            total_w2 = tw_h + gap*2 + tw_a
-            if home_logo: total_w2 += home_logo.size[0] + logo_gap2
-            if away_logo: total_w2 += away_logo.size[0] + logo_gap2
-            # If overflow with logos, fall back to text-only sizing (keep logos small)
-            if total_w2 > max_match_w:
-                # shrink logos to half
-                if home_logo and home_logo.size[0] > 20:
-                    home_logo = home_logo.resize((20,20), Image.LANCZOS)
-                if away_logo and away_logo.size[0] > 20:
-                    away_logo = away_logo.resize((20,20), Image.LANCZOS)
-                total_w2 = tw_h + gap*2 + tw_a
-                if home_logo: total_w2 += home_logo.size[0] + logo_gap2
-                if away_logo: total_w2 += away_logo.size[0] + logo_gap2
-            if total_w2 <= max_match_w:
-                block_x0 = x + (col_match - total_w2)//2
-                cur_x = block_x0
-                if home_logo:
-                    y_logo = y + (row_h - home_logo.size[1])//2
-                    # paste home logo (white circle bg already handled via logo fetcher? but we add white)
-                    # ensure white bg
-                    bg_h = Image.new("RGBA", home_logo.size, (255,255,255,255))
-                    # circle mask
-                    mask_h = Image.new("L", home_logo.size, 0)
-                    ImageDraw.Draw(mask_h).ellipse([0,0,home_logo.size[0],home_logo.size[1]], fill=255)
-                    # composite logo on white
-                    tmp_h = Image.new("RGBA", home_logo.size, (255,255,255,0))
-                    tmp_h.paste(bg_h, (0,0), mask_h)
-                    tmp_h.alpha_composite(home_logo)
-                    # border
-                    ImageDraw.Draw(tmp_h).ellipse([0,0,home_logo.size[0]-1,home_logo.size[1]-1], outline=(200,200,200,120), width=1)
-                    overlay_h = Image.new("RGBA", img.size, (0,0,0,0))
-                    overlay_h.paste(tmp_h, (cur_x, y_logo))
-                    img_rgba3 = img.convert("RGBA")
-                    img_rgba3.alpha_composite(overlay_h)
-                    img.paste(img_rgba3.convert("RGB"))
-                    draw = ImageDraw.Draw(img)
-                    cur_x += home_logo.size[0] + logo_gap2
-                draw.text((cur_x, y + (row_h - th_h)//2), home, fill=hex_to_rgb(COLORS["row_text"]), font=font_body_bold)
-                cur_x += tw_h + gap
-                # draw dash centered in its gap slot
-                dash_w, dash_h = text_size(draw, dash_label, font_body)
-                dash_x = cur_x + (gap - dash_w)//2
-                draw.text((dash_x, y + (row_h - dash_h)//2), dash_label, fill=(148,163,184), font=font_body)
-                cur_x += gap + dash_w + (gap - dash_w)//2
-                draw.text((cur_x, y + (row_h - th_a)//2), away, fill=hex_to_rgb(COLORS["row_text"]), font=font_body_bold)
-                cur_x += tw_a + logo_gap2
-                if away_logo:
-                    y_logo2 = y + (row_h - away_logo.size[1])//2
-                    mask_a = Image.new("L", away_logo.size, 0)
-                    ImageDraw.Draw(mask_a).ellipse([0,0,away_logo.size[0],away_logo.size[1]], fill=255)
-                    bg_a = Image.new("RGBA", away_logo.size, (255,255,255,255))
-                    tmp_a = Image.new("RGBA", away_logo.size, (255,255,255,0))
-                    tmp_a.paste(bg_a, (0,0), mask_a)
-                    tmp_a.alpha_composite(away_logo)
-                    ImageDraw.Draw(tmp_a).ellipse([0,0,away_logo.size[0]-1,away_logo.size[1]-1], outline=(200,200,200,120), width=1)
-                    overlay_a = Image.new("RGBA", img.size, (0,0,0,0))
-                    overlay_a.paste(tmp_a, (cur_x, y_logo2))
-                    img_rgba4 = img.convert("RGBA")
-                    img_rgba4.alpha_composite(overlay_a)
-                    img.paste(img_rgba4.convert("RGB"))
-                    draw = ImageDraw.Draw(img)
-            else:
-                # Fallback: text-only (no logos due to overflow)
-                block_x0 = x + (col_match - total_w)//2
-                draw.text((block_x0, y + (row_h - th_h)//2), home, fill=hex_to_rgb(COLORS["row_text"]), font=font_body_bold)
-                dash_w2, dash_h2 = text_size(draw, dash_label, font_body)
-                dash_x2 = block_x0 + tw_h + gap//2 + (gap - dash_w2)//2
-                draw.text((dash_x2, y + (row_h - dash_h2)//2), dash_label, fill=(148,163,184), font=font_body)
-                ax = block_x0 + tw_h + gap + dash_w2 + gap//2
-                draw.text((ax, y + (row_h - th_a)//2), away, fill=hex_to_rgb(COLORS["row_text"]), font=font_body_bold)
-
-            draw.line([(margin, y + row_h - 1), (img_width - margin, y + row_h - 1)], fill=hex_to_rgb(COLORS["separator"]), width=1)
+            tw_h, th_h = text_size(draw, home, font_body_bold)
+            tw_a, th_a = text_size(draw, away, font_body_bold)
+            max_tw = col_team - 14
+            if tw_h > max_tw:
+                for cl in range(len(home), 1, -1):
+                    cand = home[:cl] + "\u2026"
+                    cw,_ = text_size(draw, cand, font_body_bold)
+                    if cw <= max_tw:
+                        home = cand; tw_h, th_h = text_size(draw, home, font_body_bold); break
+            if tw_a > max_tw:
+                for cl in range(len(away), 1, -1):
+                    cand = away[:cl] + "\u2026"
+                    cw,_ = text_size(draw, cand, font_body_bold)
+                    if cw <= max_tw:
+                        away = cand; tw_a, th_a = text_size(draw, away, font_body_bold); break
+            # draw 6 columns
+            cx = margin
+            start_num = brand.get("_page_start", 0)
+            disp_num = str(start_num + row_idx)
+            tw_n, th_n = text_size(draw, disp_num, font_small)
+            draw.text((cx + (col_num - tw_n)//2, y + (row_h - th_n)//2), disp_num, fill=(100,116,139), font=font_small)
+            cx += col_num
+            draw.line([(cx, y+5), (cx, y+row_h-5)], fill=hex_to_rgb(C["separator"]), width=1)
+            cx += 1
+            if home_logo:
+                lx = cx + (col_logo - home_logo.size[0])//2
+                ly = y + (row_h - home_logo.size[1])//2
+                _paste_logo(home_logo, lx, ly)
+                draw = ImageDraw.Draw(img)
+            cx += col_logo
+            draw.line([(cx, y+5), (cx, y+row_h-5)], fill=hex_to_rgb(C["separator"]), width=1)
+            cx += 1
+            draw.text((cx + (col_team - tw_h)//2, y + (row_h - th_h)//2), home, fill=hex_to_rgb(C["row_text"]), font=font_body_bold)
+            cx += col_team
+            draw.line([(cx, y+5), (cx, y+row_h-5)], fill=hex_to_rgb(C["separator"]), width=1)
+            cx += 1
+            pill_w, pill_h = 30, 20
+            px = cx + (col_vs - pill_w)//2
+            py = y + (row_h - pill_h)//2
+            draw.rounded_rectangle([px, py, px+pill_w, py+pill_h], radius=pill_h//2, fill=hex_to_rgb(C["vs_bg"]))
+            tw_v, th_v = text_size(draw, "VS", font_small)
+            draw.text((px + (pill_w - tw_v)//2, py + (pill_h - th_v)//2 -1), "VS", fill=hex_to_rgb(C["vs_text"]), font=font_small)
+            cx += col_vs
+            draw.line([(cx, y+5), (cx, y+row_h-5)], fill=hex_to_rgb(C["separator"]), width=1)
+            cx += 1
+            draw.text((cx + (col_team - tw_a)//2, y + (row_h - th_a)//2), away, fill=hex_to_rgb(C["row_text"]), font=font_body_bold)
+            cx += col_team
+            draw.line([(cx, y+5), (cx, y+row_h-5)], fill=hex_to_rgb(C["separator"]), width=1)
+            cx += 1
+            if away_logo:
+                lx2 = cx + (col_logo - away_logo.size[0])//2
+                ly2 = y + (row_h - away_logo.size[1])//2
+                _paste_logo(away_logo, lx2, ly2)
+                draw = ImageDraw.Draw(img)
+            cx += col_logo
+            draw.line([(margin, y + row_h - 1), (img_width - margin, y + row_h - 1)], fill=hex_to_rgb(C["separator"]), width=1)
             y += row_h
 
-    draw.rounded_rectangle([margin, title_h, img_width - margin, y], radius=12, outline=hex_to_rgb(COLORS["border"]), width=1)
+    draw.rounded_rectangle([margin, title_h, img_width - margin, y], radius=12, outline=hex_to_rgb(C["border"]), width=1)
     y += 12
 
     # Footer — ENGLISH
-    draw_gradient_rect(img, (0, y, img_width, y + footer_h), hex_to_rgb(COLORS["footer_top"]), hex_to_rgb(COLORS["footer_bot"]))
+    draw_gradient_rect(img, (0, y, img_width, y + footer_h), hex_to_rgb(C["footer_top"]), hex_to_rgb(C["footer_bot"]))
     draw = ImageDraw.Draw(img)
     overlay2 = Image.new("RGBA", (img_width, footer_h), (0, 0, 0, 0))
     od2 = ImageDraw.Draw(overlay2)
@@ -607,7 +644,7 @@ def render_page(matches_page, brand, font_size, date_str, page_idx, total_pages,
     fy = y + 14
     for i, line in enumerate(footer_lines):
         tw, th = text_size(draw, line, font_footer if i else font_body_bold)
-        fill = hex_to_rgb(COLORS["footer_text"]) if i == 0 else hex_to_rgb(COLORS["footer_muted"])
+        fill = hex_to_rgb(C["footer_text"]) if i == 0 else hex_to_rgb(C["footer_muted"])
         fnt = font_body_bold if i == 0 else font_footer
         draw.text(((img_width - tw)//2, fy), line, fill=fill, font=fnt)
         fy += th + 8
@@ -624,6 +661,8 @@ def generate_fixture_images(
     output_dir=None,
     date_str=None,
     max_rows_per_page: int = MAX_ROWS_PER_PAGE,
+    theme=None,
+    colors=None,
 ):
     """
     Returns list of saved paths. If matches fit in one page → 1 image.
@@ -656,7 +695,7 @@ def generate_fixture_images(
     for idx, page in enumerate(pages):
         b = dict(brand)
         b["_page_start"] = start_num
-        img, w, h = render_page(page, b, font_size, date_str, idx, len(pages), len(matches))
+        img, w, h = render_page(page, b, font_size, date_str, idx, len(pages), len(matches), theme=theme or b.get("theme"), colors=colors or b.get("colors"))
         start_num += len(page)
         suffix = "" if len(pages) == 1 else f"_p{idx+1}"
         fname = f"football_{ts}{suffix}.png"
@@ -674,8 +713,8 @@ def generate_fixture_images(
     return saved
 
 # Backward compat: single image
-def generate_fixture_image(matches=None, brand=None, font_size=22, output_path=None, date_str=None):
-    paths = generate_fixture_images(matches=matches, brand=brand, font_size=font_size, output_dir=os.path.dirname(output_path) if output_path else None, date_str=date_str)
+def generate_fixture_image(matches=None, brand=None, font_size=22, output_path=None, date_str=None, theme=None, colors=None):
+    paths = generate_fixture_images(matches=matches, brand=brand, font_size=font_size, output_dir=os.path.dirname(output_path) if output_path else None, date_str=date_str, theme=theme, colors=colors)
     if output_path and paths:
         # if caller passed explicit file, rename first page to that path
         import shutil
@@ -696,13 +735,14 @@ def main():
     parser.add_argument("--output", "-o", type=str, default=None)
     parser.add_argument("--date", type=str, default=None)
     parser.add_argument("--json", type=str, default=None)
+    parser.add_argument("--theme", type=str, default="blue", choices=["blue","emerald","charcoal","crimson","violet","midnight"], help="color theme")
     parser.add_argument("--demo", action="store_true")
     args = parser.parse_args()
     matches = DEFAULT_MATCHES
     if args.json:
         with open(args.json, "r", encoding="utf-8") as f:
             matches = json.load(f)
-    paths = generate_fixture_images(matches=matches, font_size=args.font_size, output_dir=os.path.dirname(args.output) if args.output else None, date_str=args.date)
+    paths = generate_fixture_images(matches=matches, font_size=args.font_size, output_dir=os.path.dirname(args.output) if args.output else None, date_str=args.date, theme=args.theme)
     print(paths)
 
 if __name__ == "__main__":

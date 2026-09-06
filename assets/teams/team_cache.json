@@ -259,5 +259,53 @@
     "local": "/root/football-image-template/assets/teams/barcelona.png",
     "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wq9sir1639406443.png",
     "q": "Barcelona"
+  },
+  "liverpool": {
+    "team": "Liverpool",
+    "local": "/root/football-image-template/assets/teams/liverpool.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png",
+    "q": "Liverpool"
+  },
+  "juventus": {
+    "team": "Juventus",
+    "local": "/root/football-image-template/assets/teams/juventus.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/uxf0gr1742983727.png",
+    "q": "Juventus"
+  },
+  "ac_milan": {
+    "team": "AC Milan",
+    "local": "/root/football-image-template/assets/teams/ac_milan.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/wvspur1448806617.png",
+    "q": "AC Milan"
+  },
+  "marseille": {
+    "team": "Marseille",
+    "local": "/root/football-image-template/assets/teams/marseille.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/c6bazh1779212287.png",
+    "q": "Marseille"
+  },
+  "sevilla": {
+    "team": "Sevilla",
+    "local": "/root/football-image-template/assets/teams/sevilla.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/vpsqqx1473502977.png",
+    "q": "Sevilla"
+  },
+  "leverkusen": {
+    "team": "Leverkusen",
+    "local": "/root/football-image-template/assets/teams/bayer_leverkusen.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png",
+    "q": "Bayer Leverkusen"
+  },
+  "bayer_leverkusen": {
+    "team": "Bayer Leverkusen",
+    "local": "/root/football-image-template/assets/teams/bayer_leverkusen.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png",
+    "q": "Bayer Leverkusen"
+  },
+  "benfica": {
+    "team": "Benfica",
+    "local": "/root/football-image-template/assets/teams/benfica.png",
+    "badge_url": "https://r2.thesportsdb.com/images/media/team/badge/hj4kyc1781152436.png",
+    "q": "Benfica"
   }
 }

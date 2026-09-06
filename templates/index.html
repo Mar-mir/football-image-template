@@ -134,6 +134,17 @@ input:focus,select:focus,textarea:focus{border-color:var(--border-focus);box-sha
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .fade-in{animation:fadeIn .3s ease}
 .league-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:6px;vertical-align:middle;border:1px solid rgba(0,0,0,.08)}
+.theme-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.theme-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;border:2px solid var(--border);background:#fff;font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;color:var(--text)}
+.theme-pill:hover{border-color:var(--green);background:var(--green-light)}
+.theme-pill.active{border-color:var(--green);background:var(--green);color:#fff}
+.theme-pill .dot{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.1);flex-shrink:0}
+.theme-pill.active .dot{border-color:rgba(255,255,255,.6)}
+.custom-colors{margin-top:10px;display:none}
+.custom-colors.open{display:block}
+.custom-colors-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.custom-colors-grid label{font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.custom-colors-grid input[type=color]{width:100%;height:32px;border:1.5px solid var(--border);border-radius:6px;padding:2px;cursor:pointer;background:#fff}
 .preview-grid{display:grid;grid-template-columns:1fr;gap:12px;width:100%}
 .preview-grid.two{grid-template-columns:1fr 1fr}
 @media(max-width:600px){.preview-grid.two{grid-template-columns:1fr}}
@@ -256,6 +267,26 @@ Bayern Munich - Dortmund
             <input type="number" id="font-size" value="22" min="14" max="40" style="width:60px;text-align:center" oninput="document.getElementById('font-size-slider').value=this.value;document.getElementById('font-val').textContent=this.value">
           </div>
         </div>
+                <div class="form-group">
+          <label>🎨 تم رنگی خروجی — پالت را انتخاب کن</label>
+          <div class="theme-row" id="theme-row"></div>
+          <div style="margin-top:6px;font-size:11px;color:var(--muted)">هر تم هدر/فوتر/ردیفها و VS را یکدست میکند — midnight تیره است، بقیه روشن.</div>
+        </div>
+        <div style="margin-top:6px">
+          <button class="toggle-brand" onclick="toggleCustomColors()" id="btn-custom-colors" style="font-size:11px">⚙️ رنگهای سفارشی (اختیاری) ▾</button>
+          <div class="custom-colors" id="custom-colors">
+            <div class="custom-colors-grid" style="margin-top:8px">
+              <label>Header top <input type="color" id="col-header_top" value="#0B2E5C"></label>
+              <label>Header bot <input type="color" id="col-header_bot" value="#1E4A8A"></label>
+              <label>Background <input type="color" id="col-bg" value="#EEF2F9"></label>
+              <label>Border <input type="color" id="col-border" value="#8FB4E0"></label>
+              <label>VS bg <input type="color" id="col-vs_bg" value="#0B2E5C"></label>
+              <label>Row odd <input type="color" id="col-row_odd" value="#F0F5FF"></label>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:6px">فقط فیلدهایی که تغییر دهی اعمال میشود؛ خالی بگذاری از تم انتخابی استفاده میشود.</div>
+            <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="resetCustomColors()">بازنشانی رنگهای سفارشی</button>
+          </div>
+        </div>
         <button class="toggle-brand" onclick="toggleBrand()">ویرایش عنوان ▾</button>
         <div class="brand-fields" id="brand-fields">
           <div class="form-group" style="margin-top:12px">
@@ -309,6 +340,57 @@ let activeLeague = '__all__';
 let currentFiles = [];
 let lastParsed = [];
 
+const THEMES_META = {
+  blue:     {label:'Blue',     top:'#0B2E5C', bot:'#1E4A8A'},
+  emerald:  {label:'Emerald',  top:'#064E3B', bot:'#047857'},
+  charcoal: {label:'Charcoal', top:'#0F172A', bot:'#1E293B'},
+  crimson:  {label:'Crimson',  top:'#7F1D1D', bot:'#B91C1C'},
+  violet:   {label:'Violet',   top:'#4C1D95', bot:'#6D28D9'},
+  midnight: {label:'Midnight', top:'#020617', bot:'#1E293B'}
+};
+let activeTheme = 'blue';
+function renderThemePicker(){
+  const row=document.getElementById('theme-row'); if(!row) return;
+  row.innerHTML='';
+  Object.entries(THEMES_META).forEach(([key,meta])=>{
+    const btn=document.createElement('button');
+    btn.className='theme-pill'+(activeTheme===key?' active':'');
+    btn.innerHTML=`<span class="dot" style="background:linear-gradient(135deg,${meta.top},${meta.bot})"></span> ${meta.label}`;
+    btn.onclick=()=>{activeTheme=key; renderThemePicker();};
+    row.appendChild(btn);
+  });
+}
+function toggleCustomColors(){
+  const el=document.getElementById('custom-colors');
+  el.classList.toggle('open');
+  document.getElementById('btn-custom-colors').textContent = el.classList.contains('open') ? '⚙️ رنگهای سفارشی ▴' : '⚙️ رنگهای سفارشی (اختیاری) ▾';
+}
+function resetCustomColors(){
+  document.getElementById('col-header_top').value='#0B2E5C';
+  document.getElementById('col-header_bot').value='#1E4A8A';
+  document.getElementById('col-bg').value='#EEF2F9';
+  document.getElementById('col-border').value='#8FB4E0';
+  document.getElementById('col-vs_bg').value='#0B2E5C';
+  document.getElementById('col-row_odd').value='#F0F5FF';
+  toast('رنگهای سفارشی بازنشانی شد');
+}
+function collectCustomColors(){
+  const ids=['header_top','header_bot','bg','border','vs_bg','row_odd'];
+  const defaults={header_top:'#0B2E5C',header_bot:'#1E4A8A',bg:'#EEF2F9',border:'#8FB4E0',vs_bg:'#0B2E5C',row_odd:'#F0F5FF'};
+  const themeDefaults={blue:{header_top:'#0B2E5C',header_bot:'#1E4A8A',bg:'#EEF2F9',border:'#8FB4E0',vs_bg:'#0B2E5C',row_odd:'#F0F5FF'}};
+  let out={}; let has=false;
+  ids.forEach(k=>{
+    const v=document.getElementById('col-'+k).value;
+    // only send if user changed from blue defaults — keeps theme intact unless customized
+    // but if they picked non-blue theme, we should still send only non-default overrides
+    // Simpler: send only if different from the blue baseline AND the panel is open or they changed it
+    // We'll send if panel is open and value differs from the baseline blue
+    if(v.toLowerCase() !== defaults[k].toLowerCase()){
+      out[k]=v; has=true;
+    }
+  });
+  return has ? out : null;
+}
 const LEAGUE_COLORS = {
   "Premier League": "#6A1B9A",
   "La Liga": "#EF6C00",
@@ -325,7 +407,7 @@ const QUICK_TEMPLATES = {
   "Europa League": [{home:"Roma",away:"Sevilla"},{home:"Leverkusen",away:"Benfica"},{home:"Villarreal",away:"Marseille"}]
 };
 
-document.addEventListener('DOMContentLoaded',()=>{loadDefaults();});
+document.addEventListener('DOMContentLoaded',()=>{renderThemePicker(); loadDefaults();});
 
 function leagueKey(m){ return (m.league_en && m.league_en !== '—' && m.league_en !== '-') ? m.league_en : (m.league || '—'); }
 function leagueColor(lg){ return LEAGUE_COLORS[lg] || '#424242'; }
@@ -530,9 +612,12 @@ async function generate(){
   overlay.innerHTML='<div class="spinner"></div><div style="font-size:13px;color:var(--muted)">Generating image(s)…</div>';
   area.appendChild(overlay);
   try{
+    const _colors = collectCustomColors();
     const res=await fetch('/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
       matches, font_size:parseInt(document.getElementById('font-size').value)||22,
       date:document.getElementById('date-str').value.trim()||null,
+      theme: activeTheme,
+      colors: _colors,
       brand:{
         name_en:document.getElementById('brand-name-en').value.trim(),
         subtitle:document.getElementById('brand-subtitle').value.trim(),
